@@ -43,3 +43,36 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Exceptions to above rules.
+!/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
+
+# API Keys (IMPORTANTE: No subir API keys al repositorio)
+lib/config/constants/api_constants.dart
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Generated files
+*.g.dart
+*.freezed.dart
+*.config.dart
+*.gen.dart
+
+# Flutter Gen
+lib/gen/
+.flutter_gen/
+
+# Coverage
+coverage/
+*.lcov
+
+# Testing
+.test_coverage.dart
+
+# Environment variables
+.env
+.env.local
+.env.*.local

@@ -1,0 +1,115 @@
+{
+  "@@locale": "en",
+  
+  "appName": "GameSpace",
+  "@appName": {
+    "description": "Application name"
+  },
+  
+  "home": "Home",
+  "@home": {
+    "description": "Home tab label"
+  },
+  
+  "explore": "Explore",
+  "@explore": {
+    "description": "Explore tab label"
+  },
+  
+  "collection": "My Collection",
+  "@collection": {
+    "description": "Collection tab label"
+  },
+  
+  "preferences": "Preferences",
+  "@preferences": {
+    "description": "Preferences label"
+  },
+  
+  "about": "About",
+  "@about": {
+    "description": "About label"
+  },
+  
+  "search": "Search games...",
+  "@search": {
+    "description": "Search field hint"
+  },
+  
+  "popularGames": "Popular Games",
+  "recentGames": "Recent Releases",
+  "topRated": "Top Rated",
+  "favorites": "Favorites",
+  "playing": "Playing",
+  "completed": "Completed",
+  "wishlist": "Wishlist",
+  
+  "rating": "Rating",
+  "metacritic": "Metacritic",
+  "releaseDate": "Release Date",
+  "genres": "Genres",
+  "platforms": "Platforms",
+  "playtime": "Playtime",
+  "hours": "hours",
+  
+  "addToFavorites": "Add to Favorites",
+  "removeFromFavorites": "Remove from Favorites",
+  "addToCollection": "Add to Collection",
+  "share": "Share",
+  "openWebsite": "Open Website",
+  
+  "description": "Description",
+  "screenshots": "Screenshots",
+  "noDescription": "No description available",
+  "noGames": "No games available",
+  "noResults": "No results found",
+  
+  "loading": "Loading...",
+  "loadMore": "Load more",
+  "refresh": "Refresh",
+  "error": "Error",
+  "retry": "Retry",
+  
+  "online": "Online",
+  "offline": "Offline",
+  "offlineMode": "Offline Mode",
+  "offlineMessage": "You're viewing saved content. Connect to internet to update.",
+  
+  "language": "Language",
+  "theme": "Theme",
+  "lightTheme": "Light",
+  "darkTheme": "Dark",
+  "systemTheme": "System",
+  
+  "clearCache": "Clear Cache",
+  "clearSearchHistory": "Clear Search History",
+  "version": "Version",
+  
+  "aboutTitle": "About GameSpace",
+  "aboutDescription": "GameSpace is an app to discover and manage your personal video game collection.",
+  "developedBy": "Developed by",
+  "poweredBy": "Powered by RAWG API",
+  
+  "filterByGenre": "Filter by Genre",
+  "filterByPlatform": "Filter by Platform",
+  "sortBy": "Sort by",
+  "apply": "Apply",
+  "cancel": "Cancel",
+  
+  "emptyCollection": "Your collection is empty",
+  "emptyCollectionMessage": "Start adding games to your collection from the Explore section",
+  
+  "confirmDelete": "Delete game?",
+  "confirmDeleteMessage": "Are you sure you want to delete this game from your collection?",
+  "delete": "Delete",
+  
+  "searchHint": "Type a game name",
+  "recentSearches": "Recent Searches",
+  
+  "errorLoadingGames": "Error loading games",
+  "errorLoadingDetails": "Error loading game details",
+  "errorNoConnection": "No internet connection",
+  
+  "viewMore": "View more",
+  "viewLess": "View less"
+}

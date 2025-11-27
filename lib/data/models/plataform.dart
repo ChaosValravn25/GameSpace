@@ -1,64 +1,138 @@
-class ApiConstants {
-  // Base URL
-  static const String baseUrl = 'https://api.rawg.io/api';
+import 'package:json_annotation/json_annotation.dart';
+
+part 'platform.g.dart';
+
+@JsonSerializable()
+class PlatformInfo {
+  final int id;
+  final String name;
+  final String slug;
   
-  // IMPORTANTE: Reemplaza con tu API Key de RAWG.io
-  static const String apiKey = 'ca6598e717504ae1a8cc647dc7d443ff';
+  @JsonKey(name: 'games_count')
+  final int? gamesCount;
   
-  // Endpoints
-  static const String gamesEndpoint = '/games';
-  static const String gameDetailEndpoint = '/games';
-  static const String genresEndpoint = '/genres';
-  static const String platformsEndpoint = '/platforms';
-  static const String screenshotsEndpoint = '/games/{id}/screenshots';
+  @JsonKey(name: 'image_background')
+  final String? imageBackground;
   
-  // Query Parameters
-  static String get apiKeyParam => 'key=$apiKey';
+  @JsonKey(name: 'year_start')
+  final int? yearStart;
   
-  // Pagination
-  static const int pageSize = 20;
-  
-  // Build Full URL
-  static String buildUrl(String endpoint, {Map<String, String>? queryParams}) {
-    final uri = Uri.parse('$baseUrl$endpoint');
-    final params = {
-      'key': apiKey,
-      ...?queryParams,
-    };
-    return uri.replace(queryParameters: params).toString();
-  }
+  @JsonKey(name: 'year_end')
+  final int? yearEnd;
+
+  PlatformInfo({
+    required this.id,
+    required this.name,
+    required this.slug,
+    this.gamesCount,
+    this.imageBackground,
+    this.yearStart,
+    this.yearEnd,
+  });
+
+  factory PlatformInfo.fromJson(Map<String, dynamic> json) =>
+      _$PlatformInfoFromJson(json);
+  Map<String, dynamic> toJson() => _$PlatformInfoToJson(this);
 }
 
-class AppConstants {
-  // App Info
-  static const String appName = 'GameSpace';
-  static const String appVersion = '1.0.0';
-  static const String appDescription = 'Descubre y gestiona tu colección de videojuegos';
+@JsonSerializable()
+class Platform {
+  final PlatformDetail platform;
   
-  // Database
-  static const String dbName = 'gamespace.db';
-  static const int dbVersion = 1;
+  @JsonKey(name: 'released_at')
+  final String? releasedAt;
   
-  // SharedPreferences Keys
-  static const String keyLanguage = 'language';
-  static const String keyThemeMode = 'theme_mode';
-  static const String keyApiKey = 'api_key';
-  
-  // Cache Duration
-  static const Duration cacheDuration = Duration(hours: 24);
-  
-  // Collection Types
-  static const String collectionFavorites = 'favorites';
-  static const String collectionPlaying = 'playing';
-  static const String collectionCompleted = 'completed';
-  static const String collectionWishlist = 'wishlist';
+  final Requirements? requirements;
+
+  Platform({
+    required this.platform,
+    this.releasedAt,
+    this.requirements,
+  });
+
+  factory Platform.fromJson(Map<String, dynamic> json) =>
+      _$PlatformFromJson(json);
+  Map<String, dynamic> toJson() => _$PlatformToJson(this);
 }
 
-class RouteConstants {
-  static const String home = '/';
-  static const String explore = '/explore';
-  static const String collection = '/collection';
-  static const String gameDetail = '/game-detail';
-  static const String preferences = '/preferences';
-  static const String about = '/about';
+@JsonSerializable()
+class PlatformDetail {
+  final int id;
+  final String name;
+  final String slug;
+  
+  @JsonKey(name: 'image')
+  final String? image;
+  
+  @JsonKey(name: 'year_end')
+  final int? yearEnd;
+  
+  @JsonKey(name: 'year_start')
+  final int? yearStart;
+  
+  @JsonKey(name: 'games_count')
+  final int? gamesCount;
+  
+  @JsonKey(name: 'image_background')
+  final String? imageBackground;
+
+  PlatformDetail({
+    required this.id,
+    required this.name,
+    required this.slug,
+    this.image,
+    this.yearEnd,
+    this.yearStart,
+    this.gamesCount,
+    this.imageBackground,
+  });
+
+  factory PlatformDetail.fromJson(Map<String, dynamic> json) =>
+      _$PlatformDetailFromJson(json);
+  Map<String, dynamic> toJson() => _$PlatformDetailToJson(this);
+}
+
+@JsonSerializable()
+class Requirements {
+  final String? minimum;
+  final String? recommended;
+
+  Requirements({
+    this.minimum,
+    this.recommended,
+  });
+
+  factory Requirements.fromJson(Map<String, dynamic> json) =>
+      _$RequirementsFromJson(json);
+  Map<String, dynamic> toJson() => _$RequirementsToJson(this);
+}
+
+@JsonSerializable()
+class ParentPlatform {
+  final PlatformInfo platform;
+
+  ParentPlatform({required this.platform});
+
+  factory ParentPlatform.fromJson(Map<String, dynamic> json) =>
+      _$ParentPlatformFromJson(json);
+  Map<String, dynamic> toJson() => _$ParentPlatformToJson(this);
+}
+
+@JsonSerializable()
+class PlatformsResponse {
+  final int count;
+  final String? next;
+  final String? previous;
+  final List<PlatformInfo> results;
+
+  PlatformsResponse({
+    required this.count,
+    this.next,
+    this.previous,
+    required this.results,
+  });
+
+  factory PlatformsResponse.fromJson(Map<String, dynamic> json) =>
+      _$PlatformsResponseFromJson(json);
+  Map<String, dynamic> toJson() => _$PlatformsResponseToJson(this);
 }

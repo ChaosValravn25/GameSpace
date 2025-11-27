@@ -1,16 +1,123 @@
-# gamespace
+# GameSpace
 
-A new Flutter project.
+Una aplicación móvil cross-platform desarrollada con Flutter para descubrir y gestionar tu colección personal de videojuegos.
 
-## Getting Started
+## Descripción
 
-This project is a starting point for a Flutter application.
+**GameSpace** es una aplicación que permite a los usuarios explorar información detallada sobre videojuegos, mantener su colección personal y acceder a contenido tanto online como offline. La aplicación consume la API de [RAWG.io](https://rawg.io/apidocs) para obtener información actualizada sobre miles de videojuegos.
 
-A few resources to get you started if this is your first Flutter project:
+## Características
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+### Funcionalidades Principales
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- **Información Remota y Local**:
+  - Consume API REST de RAWG.io
+  - Almacenamiento local con SQLite para trabajo offline
+  - Caché inteligente de búsquedas y juegos
+
+- **Interfaces Modernas**:
+  - Diseño Material Design 3
+  - Navegación con Bottom Navigation Bar
+  - Pantallas: Home, Explorar, Colección, Preferencias
+  - Animaciones y transiciones fluidas
+
+- **Gestión de Colección**:
+  - Marcar juegos como favoritos
+  - Organizar en categorías: Jugando, Completados, Lista de Deseos
+  - CRUD completo de colección personal
+
+- **Búsqueda y Filtros**:
+  - Búsqueda de juegos en tiempo real
+  - Filtros por género y plataforma
+  - Historial de búsquedas
+
+- **Internacionalización**:
+  - Soporte para Español e Inglés
+  - Cambio de idioma en tiempo real
+
+- **Funcionalidad Offline/Online**:
+  - Detección automática de conectividad
+  - Indicador visual del estado de conexión
+  - Acceso a contenido guardado sin internet
+
+- **Integración con Apps Externas**:
+  - Compartir juegos (Share Plus)
+  - Abrir enlaces externos (URL Launcher)
+
+- **Personalización**:
+  - Modo claro y oscuro automático
+  - Preferencias de usuario persistentes
+
+## Tecnologías Utilizadas
+
+### Framework y Lenguaje
+- Flutter 3.x
+- Dart 3.x
+
+## Estructura principal
+lib/
+├── config/
+│   ├── api_constants.dart
+│   ├── theme.dart
+│  
+│       
+├── core/
+│   ├── network/
+│   │   ├── api_service.dart
+│   │   └── connectivity_service.dart
+│   └── utils/
+├── data/
+│   ├── models/
+│   │   ├── game.dart
+│   │   ├── genre.dart
+│   │   └── platform.dart
+│   ├── repositories/
+│   └── local/
+│       └── database_helper.dart
+├── presentation/
+│   ├── screens/
+│   │   ├── home/
+│   │   ├── explore/
+│   │   ├── collection/
+│   │   ├── game_detail/
+│   │   ├── preferences/
+│   │   └── about/
+│   └── widgets/
+├── providers/
+│   ├── game_provider.dart
+│   ├── theme_provider.dart
+│   └── locale_provider.dart
+├── l10n/
+│   ├── app_es.arb
+│   └── app_en.arb
+└── main.dart
+
+### Dependencias Principales
+
+```yaml
+dependencies:
+  # HTTP & API
+  http: ^1.1.0
+  dio: ^5.4.0
+  
+  # State Management
+  provider: ^6.1.1
+  
+  # Persistencia
+  sqflite: ^2.3.0
+  shared_preferences: ^2.2.2
+  
+  # UI Components
+  cached_network_image: ^3.3.0
+  
+  # Conectividad
+  connectivity_plus: ^5.0.2
+  
+  # Compartir & URLs
+  share_plus: ^7.2.1
+  url_launcher: ^6.2.2
+  
+  # Internacionalización
+  intl: ^0.18.1
+  
+ 
