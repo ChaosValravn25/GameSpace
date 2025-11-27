@@ -4,9 +4,9 @@ import 'package:provider/provider.dart';
 import 'package:gamespace/l10n/app_localizations.dart';
 
 import 'config/theme.dart';
-import 'core/network/api_service.dart';
-import 'core/network/connectivity_service.dart';
-import 'data/local/database_helper.dart';
+import 'core/network/Api_Service.dart';
+import 'core/network/Connectivity_Service.dart';
+import 'data/local/Database_Helper.dart';
 import 'providers/game_provider.dart';
 import 'providers/theme_provider.dart';
 import 'providers/locale_provider.dart';
