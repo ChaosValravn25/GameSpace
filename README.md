@@ -76,12 +76,12 @@ lib/
 │       └── database_helper.dart
 ├── presentation/
 │   ├── screens/
-│   │   ├── home/
-│   │   ├── explore/
-│   │   ├── collection/
-│   │   ├── game_detail/
-│   │   ├── preferences/
-│   │   └── about/
+│   │   ├── home_screen.dart
+│   │   ├── explore.dart
+│   │   ├── collection.dart
+│   │   ├── game_detail.dart
+│   │   ├── preferences.dart
+│   │   └── about.dart
 │   └── widgets/
 ├── providers/
 │   ├── game_provider.dart

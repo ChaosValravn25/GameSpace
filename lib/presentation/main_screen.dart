@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'screens/home_screen.dart';
-import 'explore/explore_screen.dart';
-import 'collection/collection_screen.dart';
-import 'preferences/preferences_screen.dart';
+import 'screens/explore_screen.dart';
+import 'screens/collection_screen.dart';
+import 'screens/preferences_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});

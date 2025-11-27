@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'platform.g.dart';
+part 'plataform.g.dart';
 
 @JsonSerializable()
 class PlatformInfo {

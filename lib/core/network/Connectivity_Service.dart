@@ -5,21 +5,21 @@ class ConnectivityService {
   final Connectivity _connectivity = Connectivity();
   
   // Stream para escuchar cambios de conectividad
-  Stream<ConnectivityResult> get onConnectivityChanged =>
+  Stream<List<ConnectivityResult>> get onConnectivityChanged =>
       _connectivity.onConnectivityChanged;
 
   // Verificar si hay conexión a internet
   Future<bool> hasConnection() async {
     try {
       final result = await _connectivity.checkConnectivity();
-      return _isConnected(result);
+      return _isConnected(result as ConnectivityResult);
     } catch (e) {
       return false;
     }
   }
 
   // Verificar el tipo de conexión
-  Future<ConnectivityResult> getConnectionType() async {
+  Future<Object> getConnectionType() async {
     try {
       return await _connectivity.checkConnectivity();
     } catch (e) {
@@ -61,7 +61,7 @@ class ConnectivityService {
 
   void initialize() {
     _connectivity.onConnectivityChanged.listen((result) {
-      _connectionStatusController.add(_isConnected(result));
+      _connectionStatusController.add(_isConnected(result as ConnectivityResult));
     });
   }
 
