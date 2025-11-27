@@ -126,8 +126,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get offlineMode => 'Offline Mode';
 
   @override
-  String get offlineMessage =>
-      'You\'re viewing saved content. Connect to internet to update.';
+  String get offlineMessage => 'You\'re viewing saved content. Connect to internet to update.';
 
   @override
   String get language => 'Language';
@@ -157,8 +156,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get aboutTitle => 'About GameSpace';
 
   @override
-  String get aboutDescription =>
-      'GameSpace is an app to discover and manage your personal video game collection.';
+  String get aboutDescription => 'GameSpace is an app to discover and manage your personal video game collection.';
 
   @override
   String get developedBy => 'Developed by';
@@ -185,15 +183,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get emptyCollection => 'Your collection is empty';
 
   @override
-  String get emptyCollectionMessage =>
-      'Start adding games to your collection from the Explore section';
+  String get emptyCollectionMessage => 'Start adding games to your collection from the Explore section';
 
   @override
   String get confirmDelete => 'Delete game?';
 
   @override
-  String get confirmDeleteMessage =>
-      'Are you sure you want to delete this game from your collection?';
+  String get confirmDeleteMessage => 'Are you sure you want to delete this game from your collection?';
 
   @override
   String get delete => 'Delete';

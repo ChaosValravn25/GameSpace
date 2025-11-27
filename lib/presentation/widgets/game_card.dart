@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 import '../../data/models/game.dart';
-
+import 'package:gamespace/presentation/screens/game_detail_screen.dart';
 class GameCard extends StatelessWidget {
   final Game game;
   final VoidCallback? onTap;

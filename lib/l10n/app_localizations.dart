@@ -62,17 +62,15 @@ import 'app_localizations_es.dart';
 /// be consistent with the languages listed in the AppLocalizations.supportedLocales
 /// property.
 abstract class AppLocalizations {
-  AppLocalizations(String locale)
-      : localeName = intl.Intl.canonicalizedLocale(locale.toString());
+  AppLocalizations(String locale) : localeName = intl.Intl.canonicalizedLocale(locale.toString());
 
   final String localeName;
 
-  static AppLocalizations of(BuildContext context) {
-    return Localizations.of<AppLocalizations>(context, AppLocalizations)!;
+  static AppLocalizations? of(BuildContext context) {
+    return Localizations.of<AppLocalizations>(context, AppLocalizations);
   }
 
-  static const LocalizationsDelegate<AppLocalizations> delegate =
-      _AppLocalizationsDelegate();
+  static const LocalizationsDelegate<AppLocalizations> delegate = _AppLocalizationsDelegate();
 
   /// A list of this localizations delegate along with the default localizations
   /// delegates.
@@ -84,8 +82,7 @@ abstract class AppLocalizations {
   /// Additional delegates can be added by appending to this list in
   /// MaterialApp. This list does not have to be used at all if a custom list
   /// of delegates is preferred or required.
-  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates =
-      <LocalizationsDelegate<dynamic>>[
+  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates = <LocalizationsDelegate<dynamic>>[
     delegate,
     GlobalMaterialLocalizations.delegate,
     GlobalCupertinoLocalizations.delegate,
@@ -98,423 +95,422 @@ abstract class AppLocalizations {
     Locale('es')
   ];
 
-  /// Nombre de la aplicación
+  /// Application name
   ///
-  /// In es, this message translates to:
+  /// In en, this message translates to:
   /// **'GameSpace'**
   String get appName;
 
-  /// Etiqueta del tab de inicio
+  /// Home tab label
   ///
-  /// In es, this message translates to:
-  /// **'Inicio'**
+  /// In en, this message translates to:
+  /// **'Home'**
   String get home;
 
-  /// Etiqueta del tab de explorar
+  /// Explore tab label
   ///
-  /// In es, this message translates to:
-  /// **'Explorar'**
+  /// In en, this message translates to:
+  /// **'Explore'**
   String get explore;
 
-  /// Etiqueta del tab de colección
+  /// Collection tab label
   ///
-  /// In es, this message translates to:
-  /// **'Mi Colección'**
+  /// In en, this message translates to:
+  /// **'My Collection'**
   String get collection;
 
-  /// Etiqueta de preferencias
+  /// Preferences label
   ///
-  /// In es, this message translates to:
-  /// **'Preferencias'**
+  /// In en, this message translates to:
+  /// **'Preferences'**
   String get preferences;
 
-  /// Etiqueta de acerca de
+  /// About label
   ///
-  /// In es, this message translates to:
-  /// **'Acerca de'**
+  /// In en, this message translates to:
+  /// **'About'**
   String get about;
 
-  /// Hint del campo de búsqueda
+  /// Search field hint
   ///
-  /// In es, this message translates to:
-  /// **'Buscar juegos...'**
+  /// In en, this message translates to:
+  /// **'Search games...'**
   String get search;
 
   /// No description provided for @popularGames.
   ///
-  /// In es, this message translates to:
-  /// **'Juegos Populares'**
+  /// In en, this message translates to:
+  /// **'Popular Games'**
   String get popularGames;
 
   /// No description provided for @recentGames.
   ///
-  /// In es, this message translates to:
-  /// **'Lanzamientos Recientes'**
+  /// In en, this message translates to:
+  /// **'Recent Releases'**
   String get recentGames;
 
   /// No description provided for @topRated.
   ///
-  /// In es, this message translates to:
-  /// **'Mejor Valorados'**
+  /// In en, this message translates to:
+  /// **'Top Rated'**
   String get topRated;
 
   /// No description provided for @favorites.
   ///
-  /// In es, this message translates to:
-  /// **'Favoritos'**
+  /// In en, this message translates to:
+  /// **'Favorites'**
   String get favorites;
 
   /// No description provided for @playing.
   ///
-  /// In es, this message translates to:
-  /// **'Jugando'**
+  /// In en, this message translates to:
+  /// **'Playing'**
   String get playing;
 
   /// No description provided for @completed.
   ///
-  /// In es, this message translates to:
-  /// **'Completados'**
+  /// In en, this message translates to:
+  /// **'Completed'**
   String get completed;
 
   /// No description provided for @wishlist.
   ///
-  /// In es, this message translates to:
-  /// **'Lista de Deseos'**
+  /// In en, this message translates to:
+  /// **'Wishlist'**
   String get wishlist;
 
   /// No description provided for @rating.
   ///
-  /// In es, this message translates to:
-  /// **'Valoración'**
+  /// In en, this message translates to:
+  /// **'Rating'**
   String get rating;
 
   /// No description provided for @metacritic.
   ///
-  /// In es, this message translates to:
+  /// In en, this message translates to:
   /// **'Metacritic'**
   String get metacritic;
 
   /// No description provided for @releaseDate.
   ///
-  /// In es, this message translates to:
-  /// **'Fecha de Lanzamiento'**
+  /// In en, this message translates to:
+  /// **'Release Date'**
   String get releaseDate;
 
   /// No description provided for @genres.
   ///
-  /// In es, this message translates to:
-  /// **'Géneros'**
+  /// In en, this message translates to:
+  /// **'Genres'**
   String get genres;
 
   /// No description provided for @platforms.
   ///
-  /// In es, this message translates to:
-  /// **'Plataformas'**
+  /// In en, this message translates to:
+  /// **'Platforms'**
   String get platforms;
 
   /// No description provided for @playtime.
   ///
-  /// In es, this message translates to:
-  /// **'Tiempo de Juego'**
+  /// In en, this message translates to:
+  /// **'Playtime'**
   String get playtime;
 
   /// No description provided for @hours.
   ///
-  /// In es, this message translates to:
-  /// **'horas'**
+  /// In en, this message translates to:
+  /// **'hours'**
   String get hours;
 
   /// No description provided for @addToFavorites.
   ///
-  /// In es, this message translates to:
-  /// **'Agregar a Favoritos'**
+  /// In en, this message translates to:
+  /// **'Add to Favorites'**
   String get addToFavorites;
 
   /// No description provided for @removeFromFavorites.
   ///
-  /// In es, this message translates to:
-  /// **'Quitar de Favoritos'**
+  /// In en, this message translates to:
+  /// **'Remove from Favorites'**
   String get removeFromFavorites;
 
   /// No description provided for @addToCollection.
   ///
-  /// In es, this message translates to:
-  /// **'Agregar a Colección'**
+  /// In en, this message translates to:
+  /// **'Add to Collection'**
   String get addToCollection;
 
   /// No description provided for @share.
   ///
-  /// In es, this message translates to:
-  /// **'Compartir'**
+  /// In en, this message translates to:
+  /// **'Share'**
   String get share;
 
   /// No description provided for @openWebsite.
   ///
-  /// In es, this message translates to:
-  /// **'Abrir Sitio Web'**
+  /// In en, this message translates to:
+  /// **'Open Website'**
   String get openWebsite;
 
   /// No description provided for @description.
   ///
-  /// In es, this message translates to:
-  /// **'Descripción'**
+  /// In en, this message translates to:
+  /// **'Description'**
   String get description;
 
   /// No description provided for @screenshots.
   ///
-  /// In es, this message translates to:
-  /// **'Capturas de Pantalla'**
+  /// In en, this message translates to:
+  /// **'Screenshots'**
   String get screenshots;
 
   /// No description provided for @noDescription.
   ///
-  /// In es, this message translates to:
-  /// **'No hay descripción disponible'**
+  /// In en, this message translates to:
+  /// **'No description available'**
   String get noDescription;
 
   /// No description provided for @noGames.
   ///
-  /// In es, this message translates to:
-  /// **'No hay juegos disponibles'**
+  /// In en, this message translates to:
+  /// **'No games available'**
   String get noGames;
 
   /// No description provided for @noResults.
   ///
-  /// In es, this message translates to:
-  /// **'No se encontraron resultados'**
+  /// In en, this message translates to:
+  /// **'No results found'**
   String get noResults;
 
   /// No description provided for @loading.
   ///
-  /// In es, this message translates to:
-  /// **'Cargando...'**
+  /// In en, this message translates to:
+  /// **'Loading...'**
   String get loading;
 
   /// No description provided for @loadMore.
   ///
-  /// In es, this message translates to:
-  /// **'Cargar más'**
+  /// In en, this message translates to:
+  /// **'Load more'**
   String get loadMore;
 
   /// No description provided for @refresh.
   ///
-  /// In es, this message translates to:
-  /// **'Actualizar'**
+  /// In en, this message translates to:
+  /// **'Refresh'**
   String get refresh;
 
   /// No description provided for @error.
   ///
-  /// In es, this message translates to:
+  /// In en, this message translates to:
   /// **'Error'**
   String get error;
 
   /// No description provided for @retry.
   ///
-  /// In es, this message translates to:
-  /// **'Reintentar'**
+  /// In en, this message translates to:
+  /// **'Retry'**
   String get retry;
 
   /// No description provided for @online.
   ///
-  /// In es, this message translates to:
-  /// **'En línea'**
+  /// In en, this message translates to:
+  /// **'Online'**
   String get online;
 
   /// No description provided for @offline.
   ///
-  /// In es, this message translates to:
-  /// **'Sin conexión'**
+  /// In en, this message translates to:
+  /// **'Offline'**
   String get offline;
 
   /// No description provided for @offlineMode.
   ///
-  /// In es, this message translates to:
-  /// **'Modo sin conexión'**
+  /// In en, this message translates to:
+  /// **'Offline Mode'**
   String get offlineMode;
 
   /// No description provided for @offlineMessage.
   ///
-  /// In es, this message translates to:
-  /// **'Estás viendo contenido guardado. Conéctate a internet para actualizar.'**
+  /// In en, this message translates to:
+  /// **'You\'re viewing saved content. Connect to internet to update.'**
   String get offlineMessage;
 
   /// No description provided for @language.
   ///
-  /// In es, this message translates to:
-  /// **'Idioma'**
+  /// In en, this message translates to:
+  /// **'Language'**
   String get language;
 
   /// No description provided for @theme.
   ///
-  /// In es, this message translates to:
-  /// **'Tema'**
+  /// In en, this message translates to:
+  /// **'Theme'**
   String get theme;
 
   /// No description provided for @lightTheme.
   ///
-  /// In es, this message translates to:
-  /// **'Claro'**
+  /// In en, this message translates to:
+  /// **'Light'**
   String get lightTheme;
 
   /// No description provided for @darkTheme.
   ///
-  /// In es, this message translates to:
-  /// **'Oscuro'**
+  /// In en, this message translates to:
+  /// **'Dark'**
   String get darkTheme;
 
   /// No description provided for @systemTheme.
   ///
-  /// In es, this message translates to:
-  /// **'Sistema'**
+  /// In en, this message translates to:
+  /// **'System'**
   String get systemTheme;
 
   /// No description provided for @clearCache.
   ///
-  /// In es, this message translates to:
-  /// **'Limpiar Caché'**
+  /// In en, this message translates to:
+  /// **'Clear Cache'**
   String get clearCache;
 
   /// No description provided for @clearSearchHistory.
   ///
-  /// In es, this message translates to:
-  /// **'Limpiar Historial de Búsqueda'**
+  /// In en, this message translates to:
+  /// **'Clear Search History'**
   String get clearSearchHistory;
 
   /// No description provided for @version.
   ///
-  /// In es, this message translates to:
-  /// **'Versión'**
+  /// In en, this message translates to:
+  /// **'Version'**
   String get version;
 
   /// No description provided for @aboutTitle.
   ///
-  /// In es, this message translates to:
-  /// **'Acerca de GameSpace'**
+  /// In en, this message translates to:
+  /// **'About GameSpace'**
   String get aboutTitle;
 
   /// No description provided for @aboutDescription.
   ///
-  /// In es, this message translates to:
-  /// **'GameSpace es una aplicación para descubrir y gestionar tu colección personal de videojuegos.'**
+  /// In en, this message translates to:
+  /// **'GameSpace is an app to discover and manage your personal video game collection.'**
   String get aboutDescription;
 
   /// No description provided for @developedBy.
   ///
-  /// In es, this message translates to:
-  /// **'Desarrollado por'**
+  /// In en, this message translates to:
+  /// **'Developed by'**
   String get developedBy;
 
   /// No description provided for @poweredBy.
   ///
-  /// In es, this message translates to:
+  /// In en, this message translates to:
   /// **'Powered by RAWG API'**
   String get poweredBy;
 
   /// No description provided for @filterByGenre.
   ///
-  /// In es, this message translates to:
-  /// **'Filtrar por Género'**
+  /// In en, this message translates to:
+  /// **'Filter by Genre'**
   String get filterByGenre;
 
   /// No description provided for @filterByPlatform.
   ///
-  /// In es, this message translates to:
-  /// **'Filtrar por Plataforma'**
+  /// In en, this message translates to:
+  /// **'Filter by Platform'**
   String get filterByPlatform;
 
   /// No description provided for @sortBy.
   ///
-  /// In es, this message translates to:
-  /// **'Ordenar por'**
+  /// In en, this message translates to:
+  /// **'Sort by'**
   String get sortBy;
 
   /// No description provided for @apply.
   ///
-  /// In es, this message translates to:
-  /// **'Aplicar'**
+  /// In en, this message translates to:
+  /// **'Apply'**
   String get apply;
 
   /// No description provided for @cancel.
   ///
-  /// In es, this message translates to:
-  /// **'Cancelar'**
+  /// In en, this message translates to:
+  /// **'Cancel'**
   String get cancel;
 
   /// No description provided for @emptyCollection.
   ///
-  /// In es, this message translates to:
-  /// **'Tu colección está vacía'**
+  /// In en, this message translates to:
+  /// **'Your collection is empty'**
   String get emptyCollection;
 
   /// No description provided for @emptyCollectionMessage.
   ///
-  /// In es, this message translates to:
-  /// **'Comienza a agregar juegos a tu colección desde la sección Explorar'**
+  /// In en, this message translates to:
+  /// **'Start adding games to your collection from the Explore section'**
   String get emptyCollectionMessage;
 
   /// No description provided for @confirmDelete.
   ///
-  /// In es, this message translates to:
-  /// **'¿Eliminar juego?'**
+  /// In en, this message translates to:
+  /// **'Delete game?'**
   String get confirmDelete;
 
   /// No description provided for @confirmDeleteMessage.
   ///
-  /// In es, this message translates to:
-  /// **'¿Estás seguro de que deseas eliminar este juego de tu colección?'**
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this game from your collection?'**
   String get confirmDeleteMessage;
 
   /// No description provided for @delete.
   ///
-  /// In es, this message translates to:
-  /// **'Eliminar'**
+  /// In en, this message translates to:
+  /// **'Delete'**
   String get delete;
 
   /// No description provided for @searchHint.
   ///
-  /// In es, this message translates to:
-  /// **'Escribe el nombre de un juego'**
+  /// In en, this message translates to:
+  /// **'Type a game name'**
   String get searchHint;
 
   /// No description provided for @recentSearches.
   ///
-  /// In es, this message translates to:
-  /// **'Búsquedas Recientes'**
+  /// In en, this message translates to:
+  /// **'Recent Searches'**
   String get recentSearches;
 
   /// No description provided for @errorLoadingGames.
   ///
-  /// In es, this message translates to:
-  /// **'Error al cargar los juegos'**
+  /// In en, this message translates to:
+  /// **'Error loading games'**
   String get errorLoadingGames;
 
   /// No description provided for @errorLoadingDetails.
   ///
-  /// In es, this message translates to:
-  /// **'Error al cargar los detalles del juego'**
+  /// In en, this message translates to:
+  /// **'Error loading game details'**
   String get errorLoadingDetails;
 
   /// No description provided for @errorNoConnection.
   ///
-  /// In es, this message translates to:
-  /// **'No hay conexión a internet'**
+  /// In en, this message translates to:
+  /// **'No internet connection'**
   String get errorNoConnection;
 
   /// No description provided for @viewMore.
   ///
-  /// In es, this message translates to:
-  /// **'Ver más'**
+  /// In en, this message translates to:
+  /// **'View more'**
   String get viewMore;
 
   /// No description provided for @viewLess.
   ///
-  /// In es, this message translates to:
-  /// **'Ver menos'**
+  /// In en, this message translates to:
+  /// **'View less'**
   String get viewLess;
 }
 
-class _AppLocalizationsDelegate
-    extends LocalizationsDelegate<AppLocalizations> {
+class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
   const _AppLocalizationsDelegate();
 
   @override
@@ -523,25 +519,25 @@ class _AppLocalizationsDelegate
   }
 
   @override
-  bool isSupported(Locale locale) =>
-      <String>['en', 'es'].contains(locale.languageCode);
+  bool isSupported(Locale locale) => <String>['en', 'es'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
 }
 
 AppLocalizations lookupAppLocalizations(Locale locale) {
+
+
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
-    case 'en':
-      return AppLocalizationsEn();
-    case 'es':
-      return AppLocalizationsEs();
+    case 'en': return AppLocalizationsEn();
+    case 'es': return AppLocalizationsEs();
   }
 
   throw FlutterError(
-      'AppLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
-      'an issue with the localizations generation tool. Please file an issue '
-      'on GitHub with a reproducible sample app and the gen-l10n configuration '
-      'that was used.');
+    'AppLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
+    'an issue with the localizations generation tool. Please file an issue '
+    'on GitHub with a reproducible sample app and the gen-l10n configuration '
+    'that was used.'
+  );
 }

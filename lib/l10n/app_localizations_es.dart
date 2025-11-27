@@ -126,8 +126,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get offlineMode => 'Modo sin conexión';
 
   @override
-  String get offlineMessage =>
-      'Estás viendo contenido guardado. Conéctate a internet para actualizar.';
+  String get offlineMessage => 'Estás viendo contenido guardado. Conéctate a internet para actualizar.';
 
   @override
   String get language => 'Idioma';
@@ -157,8 +156,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get aboutTitle => 'Acerca de GameSpace';
 
   @override
-  String get aboutDescription =>
-      'GameSpace es una aplicación para descubrir y gestionar tu colección personal de videojuegos.';
+  String get aboutDescription => 'GameSpace es una aplicación para descubrir y gestionar tu colección personal de videojuegos.';
 
   @override
   String get developedBy => 'Desarrollado por';
@@ -185,15 +183,13 @@ class AppLocalizationsEs extends AppLocalizations {
   String get emptyCollection => 'Tu colección está vacía';
 
   @override
-  String get emptyCollectionMessage =>
-      'Comienza a agregar juegos a tu colección desde la sección Explorar';
+  String get emptyCollectionMessage => 'Comienza a agregar juegos a tu colección desde la sección Explorar';
 
   @override
   String get confirmDelete => '¿Eliminar juego?';
 
   @override
-  String get confirmDeleteMessage =>
-      '¿Estás seguro de que deseas eliminar este juego de tu colección?';
+  String get confirmDeleteMessage => '¿Estás seguro de que deseas eliminar este juego de tu colección?';
 
   @override
   String get delete => 'Eliminar';

@@ -12,29 +12,34 @@ class ConnectivityService {
   Future<bool> hasConnection() async {
     try {
       final result = await _connectivity.checkConnectivity();
-      return _isConnected(result as ConnectivityResult);
+      return _isConnected(result);
     } catch (e) {
       return false;
     }
   }
 
   // Verificar el tipo de conexión
-  Future<Object> getConnectionType() async {
+  Future<List<ConnectivityResult>> getConnectionType() async {
     try {
       return await _connectivity.checkConnectivity();
     } catch (e) {
-      return ConnectivityResult.none;
+      return [ConnectivityResult.none];
     }
   }
 
   // Helper privado para determinar si está conectado
-  bool _isConnected(ConnectivityResult result) {
-    return result != ConnectivityResult.none;
+  bool _isConnected(List<ConnectivityResult> results) {
+    return !results.contains(ConnectivityResult.none) && results.isNotEmpty;
   }
 
   // Obtener estado de conexión como string
   Future<String> getConnectionStatus() async {
-    final result = await getConnectionType();
+    final results = await getConnectionType();
+    if (results.isEmpty || results.contains(ConnectivityResult.none)) {
+      return 'Sin conexión';
+    }
+    
+    final result = results.first;
     switch (result) {
       case ConnectivityResult.wifi:
         return 'WiFi';
@@ -61,7 +66,7 @@ class ConnectivityService {
 
   void initialize() {
     _connectivity.onConnectivityChanged.listen((result) {
-      _connectionStatusController.add(_isConnected(result as ConnectivityResult));
+      _connectionStatusController.add(_isConnected(result));
     });
   }
 
