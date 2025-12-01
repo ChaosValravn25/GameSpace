@@ -3,22 +3,22 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:gamespace/l10n/app_localizations.dart';
 
+
 import 'config/theme.dart';
 import 'config/app_routes.dart';
 import 'core/network/Api_Service.dart';
 import 'core/network/Connectivity_Service.dart';
-import 'data/local/Database_Helper.dart';
+import 'package:gamespace/data/local/Database_Helper.dart';
 import 'data/repositories/game_repository.dart';
 import 'data/repositories/collection_repository.dart';
 import 'providers/game_provider.dart';
 import 'providers/theme_provider.dart';
 import 'providers/locale_provider.dart';
 
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   
-  // Inicializar servicios
+  // Inicializar servicios base
   final apiService = ApiService();
   final dbHelper = DatabaseHelper.instance;
   final connectivityService = ConnectivityService();
@@ -36,6 +36,9 @@ void main() async {
   
   runApp(
     GameSpaceApp(
+      apiService: apiService,
+      dbHelper: dbHelper,
+      connectivityService: connectivityService,
       gameRepository: gameRepository,
       collectionRepository: collectionRepository,
     ),
@@ -43,11 +46,17 @@ void main() async {
 }
 
 class GameSpaceApp extends StatelessWidget {
+  final ApiService apiService;
+  final DatabaseHelper dbHelper;
+  final ConnectivityService connectivityService;
   final GameRepository gameRepository;
   final CollectionRepository collectionRepository;
 
   const GameSpaceApp({
     super.key,
+    required this.apiService,
+    required this.dbHelper,
+    required this.connectivityService,
     required this.gameRepository,
     required this.collectionRepository,
   });
@@ -64,12 +73,12 @@ class GameSpaceApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (_) => GameProvider(
-            apiService: gameRepository._apiService,
-            dbHelper: gameRepository._dbHelper,
-            connectivityService: gameRepository._connectivityService,
+            apiService: apiService,
+            dbHelper: dbHelper,
+            connectivityService: connectivityService,
           ),
         ),
-        // Providers adicionales pueden agregarse aquí
+        // Proveer repositorios
         Provider<GameRepository>.value(value: gameRepository),
         Provider<CollectionRepository>.value(value: collectionRepository),
       ],
@@ -105,22 +114,5 @@ class GameSpaceApp extends StatelessWidget {
         },
       ),
     );
-  }
-}
-
-// Extension para acceder a los repositorios desde cualquier parte
-extension GameRepositoryExtension on GameRepository {
-  ApiService get _apiService {
-    // Esto es un hack temporal, idealmente los repositorios deberían
-    // ser inmutables y accesibles directamente
-    return ApiService();
-  }
-  
-  DatabaseHelper get _dbHelper {
-    return DatabaseHelper.instance;
-  }
-  
-  ConnectivityService get _connectivityService {
-    return ConnectivityService();
   }
 }

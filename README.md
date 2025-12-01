@@ -63,8 +63,8 @@ lib/
 │       
 ├── core/
 │   ├── network/
-│   │   ├── api_service.dart
-│   │   └── connectivity_service.dart
+│   │   ├── Api_Service.dart
+│   │   └── Connectivity_Service.dart
 │   └── utils/
 ├── data/
 │   ├── models/
@@ -73,7 +73,7 @@ lib/
 │   │   └── platform.dart
 │   ├── repositories/
 │   └── local/
-│       └── database_helper.dart
+│       └── Database_Helper.dart
 ├── presentation/
 │   ├── screens/
 │   │   ├── home_screen.dart

@@ -1,4 +1,4 @@
-import '../local/database_helper.dart';
+import 'package:gamespace/data/local/Database_Helper.dart';
 import '../models/game.dart';
 import '../models/collection.dart';
 import '../../config/api_constants.dart';
