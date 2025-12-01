@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gamespace/presentation/main_screen.dart';
 
 import '../main.dart';
-import '../presentation//screens/home_screen.dart';
+import '../presentation/screens/home_screen.dart';
 import '../presentation/screens/explore_screen.dart';
 import '../../presentation/screens/collection_screen.dart';
 import '../../presentation/screens/game_detail_screen.dart';
