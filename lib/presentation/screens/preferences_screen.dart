@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../../../providers/theme_provider.dart';
 import '../../../providers/locale_provider.dart';
-import '../../../data/local/database_helper.dart';
+import 'package:gamespace/data/local/Database_Helper.dart';
 import '../../../config/api_constants.dart';
 import 'about_screen.dart';
 

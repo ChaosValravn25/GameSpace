@@ -1,6 +1,6 @@
-import '../../core/network/api_service.dart';
-import '../../core/network/connectivity_service.dart';
-import '../local/database_helper.dart';
+import '../../core/network/Api_Service.dart';
+import '../../core/network/Connectivity_Service.dart';
+import 'package:gamespace/data/local/Database_Helper.dart';
 import '../models/game.dart';
 import '../models/genre.dart' hide Genre;
 import '../models/search.dart';

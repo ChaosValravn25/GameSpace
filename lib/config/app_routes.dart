@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gamespace/presentation/main_screen.dart';
 
 import '../main.dart';
 import '../presentation//screens/home_screen.dart';
@@ -27,7 +28,7 @@ class AppRoutes {
   /// Mapa de rutas de la aplicación
   static Map<String, WidgetBuilder> get routes {
     return {
-      main: (context) => const main(),
+      main: (context) => const MainScreen(),
       home: (context) => const HomeScreen(),
       explore: (context) => const ExploreScreen(),
       collection: (context) => const CollectionScreen(),
