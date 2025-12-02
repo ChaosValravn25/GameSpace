@@ -126,7 +126,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                   
                   // Ordenar por
                   DropdownButtonFormField<String>(
-                    value: _selectedOrdering,
+                    initialValue: _selectedOrdering,
                     decoration: const InputDecoration(
                       labelText: 'Ordenar por',
                       prefixIcon: Icon(Icons.sort),

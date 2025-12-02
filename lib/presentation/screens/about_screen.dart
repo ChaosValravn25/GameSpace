@@ -154,16 +154,16 @@ class AboutScreen extends StatelessWidget {
             
             _buildDeveloperCard(
               context,
-              name: 'Tu Nombre 1',
+              name: 'Ivonne Santander Soto',
               role: 'Full Stack Developer',
-              email: 'developer1@ejemplo.com',
+              email: 'isantander19@alumnos.utalca.cl',
             ),
             
             const SizedBox(height: 12),
             
             _buildDeveloperCard(
               context,
-              name: 'Tu Nombre 2',
+              name: 'Vicente Castillo',
               role: 'UI/UX Designer & Developer',
               email: 'developer2@ejemplo.com',
             ),

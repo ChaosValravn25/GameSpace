@@ -2,7 +2,6 @@ import '../../core/network/Api_Service.dart';
 import '../../core/network/Connectivity_Service.dart';
 import 'package:gamespace/data/local/Database_Helper.dart';
 import '../models/game.dart';
-import '../models/genre.dart' hide Genre;
 import '../models/search.dart';
 
 /// Repositorio para gestionar datos de juegos

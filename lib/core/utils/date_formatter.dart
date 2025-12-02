@@ -141,9 +141,9 @@ class DateFormatter {
     final seconds = duration.inSeconds.remainder(60);
 
     if (hours > 0) {
-      return '$hours h ${minutes} min';
+      return '$hours h $minutes min';
     } else if (minutes > 0) {
-      return '$minutes min ${seconds} s';
+      return '$minutes min $seconds s';
     } else {
       return '$seconds s';
     }
