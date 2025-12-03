@@ -42,7 +42,9 @@ class DatabaseHelper {
         platforms TEXT,
         is_favorite INTEGER DEFAULT 0,
         collection_type TEXT,
-        added_at TEXT DEFAULT CURRENT_TIMESTAMP
+        added_at TEXT DEFAULT CURRENT_TIMESTAMP,
+        website TEXT,
+        screenshots TEXT
       )
     ''');
 
@@ -73,6 +75,8 @@ class DatabaseHelper {
     if (oldVersion < 2) {
       // Ejemplo de migración
       // await db.execute('ALTER TABLE games ADD COLUMN new_field TEXT');
+      await db.execute('ALTER TABLE games ADD COLUMN website TEXT');
+      await db.execute('ALTER TABLE games ADD COLUMN screenshots TEXT');
     }
   }
 
@@ -108,6 +112,23 @@ class DatabaseHelper {
     return Game.fromSqliteMap(maps.first);
   }
 
+  Future<void> insertFavorite(Game game) async {
+    await insertGame(game.copyWith(isFavorite: true));
+  }
+
+  Future<void> addToCollection(Game game, String collectionType) async {
+    await insertGame(game.copyWith(collectionType: collectionType));
+  }
+
+  Future<void> deleteFavorite(int gameId) async {
+    final db = await database;
+    await db.update(
+      'games',
+      {'is_favorite': 0, 'collection_type': null},
+      where: 'id = ?',
+      whereArgs: [gameId],
+    );
+  }
   // Obtener juegos favoritos
   Future<List<Game>> getFavoriteGames() async {
     final db = await database;

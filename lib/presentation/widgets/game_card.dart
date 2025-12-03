@@ -40,22 +40,21 @@ class GameCard extends StatelessWidget {
                 children: [
                   game.backgroundImage != null
                       ? CachedNetworkImage(
-                          imageUrl: game.backgroundImage!,
+                          imageUrl: game.backgroundImage ?? '',
                           fit: BoxFit.cover,
-                          placeholder: (context, url) => Container(
-                            color: Colors.grey[800],
+                          placeholder: (_, __) => Container(
+                            color: Colors.grey[850],
                             child: const Center(
-                              child: CircularProgressIndicator(),
+                              child: Icon(Icons.videogame_asset, size: 40, color: Colors.white38),
                             ),
                           ),
-                          errorWidget: (context, url, error) => Container(
-                            color: Colors.grey[800],
-                            child: const Icon(
-                              Icons.videogame_asset,
-                              size: 40,
-                              color: Colors.white54,
+                          errorWidget: (_, __, ___) => Container(
+                            color: Colors.grey[850],
+                            child: const Center(
+                              child: Icon(Icons.videogame_asset, size: 40, color: Colors.white38),
                             ),
                           ),
+
                         )
                       : Container(
                           color: Colors.grey[800],

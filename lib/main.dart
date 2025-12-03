@@ -14,7 +14,7 @@ import 'data/repositories/collection_repository.dart';
 import 'providers/game_provider.dart';
 import 'providers/theme_provider.dart';
 import 'providers/locale_provider.dart';
-
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   
@@ -51,6 +51,7 @@ class GameSpaceApp extends StatelessWidget {
   final ConnectivityService connectivityService;
   final GameRepository gameRepository;
   final CollectionRepository collectionRepository;
+  
 
   const GameSpaceApp({
     super.key,
@@ -59,6 +60,7 @@ class GameSpaceApp extends StatelessWidget {
     required this.connectivityService,
     required this.gameRepository,
     required this.collectionRepository,
+
   });
 
   @override
@@ -110,6 +112,7 @@ class GameSpaceApp extends StatelessWidget {
             initialRoute: AppRoutes.main,
             routes: AppRoutes.routes,
             onGenerateRoute: AppRoutes.onGenerateRoute,
+            navigatorKey: navigatorKey,
           );
         },
       ),

@@ -1,7 +1,9 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:gamespace/core/network/Connectivity_Service.dart';
-import 'package:gamespace/data/local/Database_Helper.dart';
+import 'package:gamespace/main.dart';
+import 'package:path/path.dart';
+import '../data/local/Database_Helper.dart';
 import '../core/network/Api_Service.dart';
 import '../data/models/game.dart';
 import '../presentation/widgets/screenshots.dart';
@@ -183,8 +185,7 @@ class GameProvider with ChangeNotifier {
     }
   }
 
-  Future<void> fetchGameDetail(int gameId) async {
-    // Evitamos recargar si ya está cargado
+    Future<void> fetchGameDetail(int gameId) async {
     if (_selectedGame?.id == gameId && _selectedGame != null) return;
 
     _isLoading = true;
@@ -192,60 +193,161 @@ class GameProvider with ChangeNotifier {
     notifyListeners();
 
     try {
-      // 1. Cargamos el detalle principal (incluye website automáticamente)
-      Game game = await _apiService.getGameDetail(gameId);
+      Game game;
+      try {
+        game = await _apiService.getGameDetail(gameId);
+      } catch (e) {
+        if (e is ApiException && e.statusCode == 404) {
+          // Juego spam → usamos datos básicos del listado si los tenemos
+          game = await _findGameInCache(gameId) ?? Game(id: gameId, name: 'Juego no encontrado');
+        } else {
+          rethrow;
+        }
+      }
 
-      // 2. Preservamos datos locales (favorito/colección)
+      // Preservamos favorito/colección
       final wasFavorite = _selectedGame?.isFavorite ?? false;
       final wasCollection = _selectedGame?.collectionType;
 
-      // 3. Cargamos screenshots completos (fallback a short_screenshots si falla)
-      List<Screenshot> screenshots = [];
+      // Screenshots completos (con fallback)
+      List<Screenshot> screenshots = game.shortScreenshots ?? [];
       try {
         screenshots = await _apiService.getGameScreenshots(gameId);
-      } catch (e) {
-        print('Error cargando screenshots completos: $e');
-        screenshots = game.shortScreenshots ?? [];
-      }
+      } catch (_) {}
 
-      // 4. Reconstruimos el juego con todo
-      game = game.copyWith(
+      _selectedGame = game.copyWith(
         isFavorite: wasFavorite,
         collectionType: wasCollection,
         screenshots: screenshots,
       );
-
-      _selectedGame = game;
     } catch (e) {
-      _errorMessage = 'Error al cargar detalles: $e';
-      print(e);
+      _errorMessage = null; // Nunca mostramos error en juegos spam
+      print('Detalle no disponible: $e');
     } finally {
       _isLoading = false;
       notifyListeners();
     }
   }
-
   // Toggle Favorite
-  Future<void> toggleFavorite(Game game) async {
+    Future<void> toggleFavorite(Game game, {BuildContext? context}) async {
+    final fullGame = selectedGame?.id == game.id ? selectedGame! : game;
+    final newFavoriteStatus = !fullGame.isFavorite;
+    final updatedGame = fullGame.copyWith(isFavorite: newFavoriteStatus);
+
+    _selectedGame = updatedGame;
+    _refreshCurrentLists(updatedGame);
+    notifyListeners();
+
     try {
-      final newStatus = !game.isFavorite;
-      
-      if (newStatus) {
-        await _dbHelper.insertGame(game.copyWith(isFavorite: true));
+      if (newFavoriteStatus) {
+        await _dbHelper.insertFavorite(updatedGame);
       } else {
-        await _dbHelper.updateFavoriteStatus(game.id, false);
+        await _dbHelper.deleteFavorite(updatedGame.id);
       }
-      
-      // Update local state
-      if (_selectedGame?.id == game.id) {
-        _selectedGame = _selectedGame!.copyWith(isFavorite: newStatus);
-      }
-      
-      await loadFavorites();
-      notifyListeners();
     } catch (e) {
-      _errorMessage = e.toString();
+      // Revierte si falla SQLite
+      _selectedGame = fullGame;
+      _refreshCurrentLists(fullGame);
       notifyListeners();
+      _errorMessage = 'Error al guardar favorito';
+      if (context != null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Error al guardar favorito')),
+        );
+      }
+    }
+  }
+
+  Future<void> addToCollection(Game game, String type) async {
+    final fullGame = selectedGame?.id == game.id ? selectedGame! : game;
+    final updatedGame = fullGame.copyWith(collectionType: type);
+
+    _selectedGame = updatedGame;
+    _refreshCurrentLists(updatedGame);
+    notifyListeners();
+
+    await _dbHelper.addToCollection(updatedGame, type);
+  }
+  void _updateGameInAllLists(Game updatedGame) {
+    // Actualiza en populares, recientes, búsqueda, favoritos, etc.
+    void _replaceIn(List<Game> list) {
+      final idx = list.indexWhere((g) => g.id == updatedGame.id);
+      if (idx != -1) {
+        list[idx] = updatedGame;
+      }
+    }
+
+    _replaceIn(_games);
+    _replaceIn(_popularGames);
+    _replaceIn(_recentGames);
+    _replaceIn(_searchResults);
+
+    final favIdx = _favoriteGames.indexWhere((g) => g.id == updatedGame.id);
+    if (favIdx != -1) {
+      // keep favorites list consistent (if it was already favorite)
+      if (updatedGame.isFavorite) {
+        _favoriteGames[favIdx] = updatedGame;
+      } else {
+        _favoriteGames.removeAt(favIdx);
+      }
+    } else if (updatedGame.isFavorite) {
+      _favoriteGames.add(updatedGame);
+    }
+  }
+  void _revertFavoriteUpdate(int gameId) {
+    // Intentamos restaurar el estado desde la caché si algo falla.
+    // Si no hay datos de caché, simplemente marcamos como no favorito.
+    Game? cached;
+    try {
+      cached = _games.firstWhere((g) => g.id == gameId);
+    } catch (_) {
+      cached = null;
+    }
+    if (cached == null) {
+      // No estaba en memoria, intenta obtener de la DB de forma asíncrona (fire-and-forget)
+      _findGameInCache(gameId).then((g) {
+        if (g != null) {
+          final updated = g.copyWith(isFavorite: g.isFavorite);
+          _updateGameInAllLists(updated);
+          notifyListeners();
+        } else {
+          // Si no existe en caché, limpiamos cualquier marca local
+          final lists = [_games, _popularGames, _recentGames, _searchResults, _favoriteGames];
+          for (var list in lists) {
+            final idx = list.indexWhere((x) => x.id == gameId);
+            if (idx != -1) {
+              list[idx] = list[idx].copyWith(isFavorite: false);
+            }
+          }
+          notifyListeners();
+        }
+      });
+      return;
+    }
+
+    // Si está en memoria, restauramos directamente
+    final restored = cached.copyWith(isFavorite: cached.isFavorite);
+    _updateGameInAllLists(restored);
+    notifyListeners();
+  }
+
+  Future<Game?> _findGameInCache(int gameId) async {
+    // Primero busca en memoria
+    try {
+      final mem = _games.firstWhere((g) => g.id == gameId);
+      return mem;
+    } catch (_) {}
+
+    try {
+      final all = await _dbHelper.getAllGames();
+      try {
+        final fromDb = all.firstWhere((g) => g.id == gameId);
+        return fromDb;
+      } catch (_) {
+        return null;
+      }
+    } catch (_) {
+      return null;
     }
   }
 
@@ -253,18 +355,6 @@ class GameProvider with ChangeNotifier {
   Future<void> loadFavorites() async {
     try {
       _favoriteGames = await _dbHelper.getFavoriteGames();
-      notifyListeners();
-    } catch (e) {
-      _errorMessage = e.toString();
-    }
-  }
-
-  // Add to Collection
-  Future<void> addToCollection(Game game, String collectionType) async {
-    try {
-      final updatedGame = game.copyWith(collectionType: collectionType);
-      await _dbHelper.insertGame(updatedGame);
-      
       notifyListeners();
     } catch (e) {
       _errorMessage = e.toString();
@@ -307,5 +397,24 @@ class GameProvider with ChangeNotifier {
     _hasMore = true;
     _errorMessage = null;
     notifyListeners();
+  }
+  
+  void _refreshCurrentLists(Game updatedGame) {
+    void updateList(List<Game> list) {
+      for (int i = 0; i < list.length; i++) {
+        if (list[i].id == updatedGame.id) {
+          list[i] = updatedGame;
+          break;
+        }
+      }
+    }
+
+    updateList(_games);
+    updateList(_popularGames);
+    updateList(_recentGames);
+    updateList(_favoriteGames);
+    updateList(_searchResults);
+
+    // Si tienes más listas en el futuro (ej. topRatedGames), añádelas aquí
   }
 }

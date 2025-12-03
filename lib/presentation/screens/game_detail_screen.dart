@@ -148,14 +148,14 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
           children: [
             if (game.backgroundImage != null)
               CachedNetworkImage(
-                imageUrl: game.backgroundImage!,
-                fit: BoxFit.cover,
-                placeholder: (_, __) => Container(color: Colors.grey[850]),
-                errorWidget: (_, __, ___) => Container(
-                  color: Colors.grey[850],
-                  child: const Icon(Icons.videogame_asset, size: 80, color: Colors.white54),
-                ),
-              )
+                  imageUrl: game.backgroundImage ?? '',
+                  fit: BoxFit.cover,
+                  placeholder: (_, __) => Container(color: Colors.grey[850]),
+                  errorWidget: (_, __, ___) => Container(
+                    color: Colors.grey[850],
+                    child: const Icon(Icons.videogame_asset, size: 80, color: Colors.white54),
+                  ),
+                )
             else
               Container(
                 color: Colors.grey[850],
