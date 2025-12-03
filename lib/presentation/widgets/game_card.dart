@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 import '../../data/models/game.dart';
-import 'package:gamespace/presentation/screens/game_detail_screen.dart';
+import '../screens/game_detail_screen.dart';
+import 'platform_icon.dart'; // 🎯 NUEVO IMPORT
+
 class GameCard extends StatelessWidget {
   final Game game;
   final VoidCallback? onTap;
@@ -16,14 +18,15 @@ class GameCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap ?? () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => GameDetailScreen(gameId: game.id),
-          ),
-        );
-      },
+      onTap: onTap ??
+          () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => GameDetailScreen(gameId: game.id),
+              ),
+            );
+          },
       child: Card(
         clipBehavior: Clip.antiAlias,
         child: Column(
@@ -62,7 +65,7 @@ class GameCard extends StatelessWidget {
                             color: Colors.white54,
                           ),
                         ),
-                  
+
                   // Rating Badge
                   if (game.rating != null)
                     Positioned(
@@ -101,7 +104,7 @@ class GameCard extends StatelessWidget {
                 ],
               ),
             ),
-            
+
             // Info
             Expanded(
               flex: 2,
@@ -110,6 +113,7 @@ class GameCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    // Título del juego
                     Text(
                       game.name,
                       style: Theme.of(context).textTheme.titleSmall,
@@ -117,11 +121,47 @@ class GameCard extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                     ),
                     const Spacer(),
-                    if (game.released != null)
-                      Text(
-                        game.released!,
-                        style: Theme.of(context).textTheme.bodySmall,
-                      ),
+
+                    // 🎮 NUEVA SECCIÓN: Plataformas y Fecha
+                    Row(
+                      children: [
+                        // 🎯 ICONOS DE PLATAFORMAS
+                        if (game.platforms != null &&
+                            game.platforms!.isNotEmpty)
+                          Flexible(
+                            child: PlatformIconRow(
+                              platformSlugs: game.platforms!
+                                  .map((p) => p.platform?.slug ?? '')
+                                  .where((slug) => slug.isNotEmpty)
+                                  .toList(),
+                              iconSize: 14.0,
+                              maxIcons: 3,
+                              spacing: 4.0,
+                              iconColor: Theme.of(context)
+                                  .iconTheme
+                                  .color
+                                  ?.withOpacity(0.7),
+                            ),
+                          ),
+
+                        // Espaciador
+                        if (game.platforms != null &&
+                            game.platforms!.isNotEmpty &&
+                            game.released != null)
+                          const SizedBox(width: 8),
+
+                        // Fecha de lanzamiento
+                        if (game.released != null)
+                          Flexible(
+                            child: Text(
+                              game.released!,
+                              style: Theme.of(context).textTheme.bodySmall,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                      ],
+                    ),
                   ],
                 ),
               ),

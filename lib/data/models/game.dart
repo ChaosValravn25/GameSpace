@@ -104,6 +104,8 @@ class Game {
       collectionType: map['collection_type'],
     );
   }
+
+  Null get website => null;
   
   Game copyWith({
     bool? isFavorite,

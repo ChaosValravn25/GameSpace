@@ -7,6 +7,8 @@ import '../widgets/game_card.dart';
 import '../widgets/connectivity_banner.dart';
 import '../screens/game_detail_screen.dart';
 import 'explore_screen.dart';
+import '../widgets/hero_section.dart';
+import '../widgets/game_carousel.dart';
 import 'package:gamespace/data/models/game.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -58,8 +60,8 @@ class _HomeScreenState extends State<HomeScreen> {
         onRefresh: _loadData,
         child: Consumer<GameProvider>(
           builder: (context, provider, child) {
-            if (provider.isLoading && 
-                provider.popularGames.isEmpty && 
+            if (provider.isLoading &&
+                provider.popularGames.isEmpty &&
                 provider.recentGames.isEmpty) {
               return const Center(child: CircularProgressIndicator());
             }
@@ -69,46 +71,67 @@ class _HomeScreenState extends State<HomeScreen> {
                 const ConnectivityBanner(),
                 Expanded(
                   child: SingleChildScrollView(
-                    padding: const EdgeInsets.all(16),
+                    padding: const EdgeInsets.symmetric(vertical: 16),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // Hero Section
+                        // 🎮 Hero Section - Juego destacado
                         if (provider.popularGames.isNotEmpty)
-                          _buildHeroSection(
-                            context,
-                            provider.popularGames.first,
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                            child: HeroSection(
+                              game: provider.popularGames.first,
+                              height: 250,
+                            ),
                           ),
-                        
+
                         const SizedBox(height: 24),
-                        
-                        // Popular Games
-                        _buildSectionTitle(
-                          context,
-                          l10n.popularGames,
-                          Icons.trending_up,
-                        ),
-                        const SizedBox(height: 12),
-                        _buildHorizontalList(
-                          context,
-                          provider.popularGames.take(10).toList(),
-                        ),
-                        
+
+                        // 🔥 Popular Games Carousel
+                        if (provider.popularGames.isNotEmpty)
+                          GameCarousel(
+                            games: provider.popularGames.take(10).toList(),
+                            title: l10n.popularGames,
+                            icon: Icons.trending_up,
+                            height: 240,
+                            cardWidth: 160,
+                            onSeeAll: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const ExploreScreen(),
+                                ),
+                              );
+                            },
+                          ),
+
                         const SizedBox(height: 24),
-                        
-                        // Recent Games
-                        _buildSectionTitle(
-                          context,
-                          l10n.recentGames,
-                          Icons.new_releases,
-                        ),
-                        const SizedBox(height: 12),
-                        _buildHorizontalList(
-                          context,
-                          provider.recentGames.take(10).toList(),
-                        ),
-                        
+
+                        // 🆕 Recent Games Carousel
+                        if (provider.recentGames.isNotEmpty)
+                          GameCarousel(
+                            games: provider.recentGames.take(10).toList(),
+                            title: l10n.recentGames,
+                            icon: Icons.new_releases,
+                            height: 240,
+                            cardWidth: 160,
+                            onSeeAll: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const ExploreScreen(),
+                                ),
+                              );
+                            },
+                          ),
+
                         const SizedBox(height: 24),
+
+                        // Mensaje cuando no hay juegos
+                        if (provider.popularGames.isEmpty &&
+                            provider.recentGames.isEmpty &&
+                            !provider.isLoading)
+                          _buildEmptyState(context),
                       ],
                     ),
                   ),
@@ -121,149 +144,41 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildHeroSection(BuildContext context, Game game) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => GameDetailScreen(gameId: game.id),
-          ),
-        );
-      },
-      child: Container(
-        height: 200,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(16),
-          image: game.backgroundImage != null
-              ? DecorationImage(
-                  image: NetworkImage(game.backgroundImage!),
-                  fit: BoxFit.cover,
-                )
-              : null,
-          gradient: game.backgroundImage == null
-              ? LinearGradient(
-                  colors: [
-                    Theme.of(context).primaryColor,
-                    Theme.of(context).primaryColor.withOpacity(0.7),
-                  ],
-                )
-              : null,
-        ),
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(16),
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [
-                Colors.transparent,
-                Colors.black.withOpacity(0.8),
-              ],
+  Widget _buildEmptyState(BuildContext context) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(32.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.videogame_asset_off,
+              size: 80,
+              color: Colors.grey[600],
             ),
-          ),
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                game.name,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-              ),
-              const SizedBox(height: 8),
-              Row(
-                children: [
-                  const Icon(Icons.star, color: Colors.amber, size: 20),
-                  const SizedBox(width: 4),
-                  Text(
-                    game.rating?.toStringAsFixed(1) ?? 'N/A',
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
+            const SizedBox(height: 16),
+            Text(
+              'No hay juegos disponibles',
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                    color: Colors.grey[600],
                   ),
-                  if (game.metacritic != null) ...[
-                    const SizedBox(width: 16),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 8,
-                        vertical: 4,
-                      ),
-                      decoration: BoxDecoration(
-                        color: _getMetacriticColor(game.metacritic!),
-                        borderRadius: BorderRadius.circular(4),
-                      ),
-                      child: Text(
-                        game.metacritic.toString(),
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ],
-                ],
-              ),
-            ],
-          ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              'Intenta recargar la página',
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: Colors.grey[500],
+                  ),
+            ),
+            const SizedBox(height: 24),
+            ElevatedButton.icon(
+              onPressed: _loadData,
+              icon: const Icon(Icons.refresh),
+              label: const Text('Recargar'),
+            ),
+          ],
         ),
       ),
     );
-  }
-
-  Widget _buildSectionTitle(BuildContext context, String title, IconData icon) {
-    return Row(
-      children: [
-        Icon(icon, color: Theme.of(context).primaryColor),
-        const SizedBox(width: 8),
-        Text(
-          title,
-          style: Theme.of(context).textTheme.titleLarge,
-        ),
-      ],
-    );
-  }
-
-  Widget _buildHorizontalList(BuildContext context, List<Game> games) {
-    if (games.isEmpty) {
-      return const SizedBox(
-        height: 200,
-        child: Center(child: Text('No games available')),
-      );
-    }
-
-    return SizedBox(
-      height: 220,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: games.length,
-        itemBuilder: (context, index) {
-          return Padding(
-            padding: EdgeInsets.only(
-              right: index < games.length - 1 ? 12 : 0,
-            ),
-            child: SizedBox(
-              width: 150,
-              child: GameCard(game: games[index]),
-            ),
-          );
-        },
-      ),
-    );
-  }
-
-  Color _getMetacriticColor(int score) {
-    if (score >= 75) return Colors.green;
-    if (score >= 50) return Colors.orange;
-    return Colors.red;
   }
 }

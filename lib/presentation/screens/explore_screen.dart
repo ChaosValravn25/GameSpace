@@ -3,10 +3,8 @@ import 'package:provider/provider.dart';
 import 'dart:async';
 
 import '../../../providers/game_provider.dart';
-import '../../data/models/game.dart';
 import '../widgets/game_card.dart';
 import '../widgets/connectivity_banner.dart';
-import 'game_detail_screen.dart';
 
 class ExploreScreen extends StatefulWidget {
   const ExploreScreen({super.key});
