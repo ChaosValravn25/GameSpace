@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-
+import 'package:cached_network_image/cached_network_image.dart';
 import '../../data/models/game.dart';
 import 'game_card.dart';
 import '../screens/game_detail_screen.dart';
-
+import 'platform_icon.dart';
 /// Widget que muestra juegos en Grid o Lista
 class GameGrid extends StatelessWidget {
   final List<Game> games;
@@ -55,31 +55,39 @@ class GameGrid extends StatelessWidget {
       padding: padding,
       itemCount: games.length,
       itemBuilder: (context, index) {
-        return _GameListItem(game: games[index]);
+        return GameListItem(game: games[index]);
       },
     );
   }
 }
 
-/// Widget de item de lista (vista lista)
-class _GameListItem extends StatelessWidget {
+/// Widget de item de lista (vista lista) - Ahora público para reutilización
+class GameListItem extends StatelessWidget {
   final Game game;
+  final VoidCallback? onTap;
+  final Widget? trailing;
 
-  const _GameListItem({required this.game});
+  const GameListItem({
+    super.key,
+    required this.game,
+    this.onTap,
+    this.trailing,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Card(
       margin: const EdgeInsets.only(bottom: 12),
       child: InkWell(
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => GameDetailScreen(gameId: game.id),
-            ),
-          );
-        },
+        onTap: onTap ??
+            () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => GameDetailScreen(gameId: game.id),
+                ),
+              );
+            },
         borderRadius: BorderRadius.circular(12),
         child: Padding(
           padding: const EdgeInsets.all(12),
@@ -88,26 +96,17 @@ class _GameListItem extends StatelessWidget {
               // Imagen
               ClipRRect(
                 borderRadius: BorderRadius.circular(8),
-                child: game.backgroundImage != null
-                    ? Image.network(
-                        game.backgroundImage!,
-                        width: 80,
-                        height: 80,
-                        fit: BoxFit.cover,
-                        errorBuilder: (context, error, stackTrace) {
-                          return _buildPlaceholder();
-                        },
-                      )
-                    : _buildPlaceholder(),
+                child: _buildImage(),
               ),
-              
+
               const SizedBox(width: 12),
-              
+
               // Información
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    // Título
                     Text(
                       game.name,
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
@@ -117,6 +116,8 @@ class _GameListItem extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                     ),
                     const SizedBox(height: 4),
+
+                    // Fecha
                     if (game.released != null)
                       Text(
                         game.released!,
@@ -124,9 +125,13 @@ class _GameListItem extends StatelessWidget {
                               color: Colors.grey[600],
                             ),
                       ),
+
                     const SizedBox(height: 8),
+
+                    // 🎯 Rating, Metacritic y Plataformas
                     Row(
                       children: [
+                        // Rating
                         if (game.rating != null) ...[
                           const Icon(Icons.star, size: 16, color: Colors.amber),
                           const SizedBox(width: 4),
@@ -137,6 +142,8 @@ class _GameListItem extends StatelessWidget {
                             ),
                           ),
                         ],
+
+                        // Metacritic
                         if (game.metacritic != null) ...[
                           const SizedBox(width: 12),
                           Container(
@@ -158,19 +165,52 @@ class _GameListItem extends StatelessWidget {
                             ),
                           ),
                         ],
+
+                        const SizedBox(width: 12),
+
+                        // 🎯 ICONOS DE PLATAFORMAS
+                        if (game.platforms != null &&
+                            game.platforms!.isNotEmpty)
+                          Expanded(
+                            child: PlatformIconRow(
+                              platformSlugs: game.platforms!
+                                  .map((p) => p.platform?.slug ?? '')
+                                  .where((slug) => slug.isNotEmpty)
+                                  .toList(),
+                              iconSize: 14.0,
+                              maxIcons: 3,
+                              spacing: 4.0,
+                              iconColor: Colors.grey[600],
+                            ),
+                          ),
                       ],
                     ),
                   ],
                 ),
               ),
-              
-              // Icono de acción
-              const Icon(Icons.arrow_forward_ios, size: 16),
+
+              // Trailing (icono de acción o widget personalizado)
+              trailing ??
+                  const Icon(Icons.arrow_forward_ios, size: 16),
             ],
           ),
         ),
       ),
     );
+  }
+
+  Widget _buildImage() {
+    if (game.backgroundImage != null) {
+      return CachedNetworkImage(
+        imageUrl: game.backgroundImage!,
+        width: 80,
+        height: 80,
+        fit: BoxFit.cover,
+        placeholder: (context, url) => _buildPlaceholder(),
+        errorWidget: (context, url, error) => _buildPlaceholder(),
+      );
+    }
+    return _buildPlaceholder();
   }
 
   Widget _buildPlaceholder() {
@@ -213,7 +253,7 @@ class AdaptiveGameGrid extends StatelessWidget {
     return LayoutBuilder(
       builder: (context, constraints) {
         int crossAxisCount = 2;
-        
+
         if (constraints.maxWidth > 1200) {
           crossAxisCount = 4;
         } else if (constraints.maxWidth > 800) {

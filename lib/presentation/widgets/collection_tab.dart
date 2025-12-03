@@ -116,10 +116,10 @@ class CollectionTab extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(
+            Icon(
               Icons.error_outline,
-              size: 64,
-              color: Colors.red,
+              size: 80,
+              color: Colors.red[400],
             ),
             const SizedBox(height: 24),
             Text(
@@ -131,7 +131,9 @@ class CollectionTab extends StatelessWidget {
             const SizedBox(height: 12),
             Text(
               errorMessage ?? 'Ha ocurrido un error inesperado',
-              style: Theme.of(context).textTheme.bodyMedium,
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: Colors.grey[600],
+                  ),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 24),
@@ -139,6 +141,12 @@ class CollectionTab extends StatelessWidget {
               onPressed: onRefresh,
               icon: const Icon(Icons.refresh),
               label: const Text('Reintentar'),
+              style: ElevatedButton.styleFrom(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 24,
+                  vertical: 12,
+                ),
+              ),
             ),
           ],
         ),
@@ -160,7 +168,7 @@ class CollectionTab extends StatelessWidget {
           'icon': Icons.play_circle_outline,
           'title': 'No estás jugando nada',
           'message':
-              'Marca los juegos que estás jugando actualmente\nPodras hacer seguimiento de tu progreso',
+              'Marca los juegos que estás jugando actualmente\nPodrás hacer seguimiento de tu progreso',
         };
       case 'completed':
         return {
@@ -210,15 +218,32 @@ class CollectionStats extends StatelessWidget {
       decoration: BoxDecoration(
         color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'Estadísticas',
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
+          Row(
+            children: [
+              Icon(
+                Icons.bar_chart,
+                size: 20,
+                color: Theme.of(context).primaryColor,
+              ),
+              const SizedBox(width: 8),
+              Text(
+                'Estadísticas',
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+              ),
+            ],
           ),
           const SizedBox(height: 16),
           Row(
@@ -229,24 +254,28 @@ class CollectionStats extends StatelessWidget {
                 Icons.videogame_asset,
                 totalGames,
                 'Total',
+                Colors.blue,
               ),
               _buildStatItem(
                 context,
                 Icons.favorite,
                 favoritesCount,
                 'Favoritos',
+                Colors.red,
               ),
               _buildStatItem(
                 context,
                 Icons.play_circle,
                 playingCount,
                 'Jugando',
+                Colors.orange,
               ),
               _buildStatItem(
                 context,
                 Icons.check_circle,
                 completedCount,
                 'Completados',
+                Colors.green,
               ),
             ],
           ),
@@ -260,19 +289,28 @@ class CollectionStats extends StatelessWidget {
     IconData icon,
     int count,
     String label,
+    Color color,
   ) {
     return Column(
       children: [
-        Icon(
-          icon,
-          color: Theme.of(context).primaryColor,
-          size: 28,
+        Container(
+          padding: const EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            color: color.withOpacity(0.1),
+            shape: BoxShape.circle,
+          ),
+          child: Icon(
+            icon,
+            color: color,
+            size: 24,
+          ),
         ),
         const SizedBox(height: 8),
         Text(
           count.toString(),
           style: Theme.of(context).textTheme.titleLarge?.copyWith(
                 fontWeight: FontWeight.bold,
+                color: color,
               ),
         ),
         const SizedBox(height: 4),

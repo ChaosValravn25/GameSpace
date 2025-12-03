@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../data/models/genre.dart';
 import '../../data/models/plataform.dart';
-
+import '../widgets/platform_icon.dart';
 /// Bottom Sheet para filtros de búsqueda
 class FilterSheet extends StatefulWidget {
   final List<Genre>? genres;
@@ -167,11 +167,37 @@ class _FilterSheetState extends State<FilterSheet> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          'Géneros',
-          style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                fontWeight: FontWeight.bold,
+        Row(
+          children: [
+            const Icon(Icons.category, size: 20),
+            const SizedBox(width: 8),
+            Text(
+              'Géneros',
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+            ),
+            const Spacer(),
+            if (_selectedGenres.isNotEmpty)
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 8,
+                  vertical: 4,
+                ),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).primaryColor.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Text(
+                  '${_selectedGenres.length}',
+                  style: TextStyle(
+                    color: Theme.of(context).primaryColor,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 12,
+                  ),
+                ),
               ),
+          ],
         ),
         const SizedBox(height: 12),
         Wrap(
@@ -191,9 +217,7 @@ class _FilterSheetState extends State<FilterSheet> {
                   }
                 });
               },
-              avatar: isSelected
-                  ? const Icon(Icons.check, size: 18)
-                  : null,
+              avatar: isSelected ? const Icon(Icons.check, size: 18) : null,
             );
           }).toList(),
         ),
@@ -205,11 +229,37 @@ class _FilterSheetState extends State<FilterSheet> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          'Plataformas',
-          style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                fontWeight: FontWeight.bold,
+        Row(
+          children: [
+            const Icon(Icons.devices, size: 20),
+            const SizedBox(width: 8),
+            Text(
+              'Plataformas',
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+            ),
+            const Spacer(),
+            if (_selectedPlatforms.isNotEmpty)
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 8,
+                  vertical: 4,
+                ),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).primaryColor.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Text(
+                  '${_selectedPlatforms.length}',
+                  style: TextStyle(
+                    color: Theme.of(context).primaryColor,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 12,
+                  ),
+                ),
               ),
+          ],
         ),
         const SizedBox(height: 12),
         Wrap(
@@ -229,9 +279,14 @@ class _FilterSheetState extends State<FilterSheet> {
                   }
                 });
               },
+              // 🎯 USANDO PlatformIcon EN VEZ DE _getPlatformIcon
               avatar: isSelected
                   ? const Icon(Icons.check, size: 18)
-                  : Icon(_getPlatformIcon(platform.slug), size: 18),
+                  : PlatformIcon(
+                      platformSlug: platform.slug,
+                      size: 18,
+                      color: Theme.of(context).iconTheme.color,
+                    ),
             );
           }).toList(),
         ),
@@ -240,8 +295,9 @@ class _FilterSheetState extends State<FilterSheet> {
   }
 
   Widget _buildActions(BuildContext context) {
-    final activeFiltersCount = _selectedGenres.length + _selectedPlatforms.length;
-    
+    final activeFiltersCount =
+        _selectedGenres.length + _selectedPlatforms.length;
+
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -254,57 +310,71 @@ class _FilterSheetState extends State<FilterSheet> {
           ),
         ],
       ),
-      child: Row(
-        children: [
-          if (activeFiltersCount > 0)
-            Padding(
-              padding: const EdgeInsets.only(right: 12),
-              child: Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 6,
+      child: SafeArea(
+        child: Row(
+          children: [
+            if (activeFiltersCount > 0)
+              Padding(
+                padding: const EdgeInsets.only(right: 12),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 6,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).primaryColor.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        Icons.check_circle,
+                        size: 16,
+                        color: Theme.of(context).primaryColor,
+                      ),
+                      const SizedBox(width: 6),
+                      Text(
+                        '$activeFiltersCount activos',
+                        style: TextStyle(
+                          color: Theme.of(context).primaryColor,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 13,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-                decoration: BoxDecoration(
-                  color: Theme.of(context).primaryColor.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(20),
+              ),
+            Expanded(
+              child: ElevatedButton(
+                onPressed: () {
+                  if (widget.onApply != null) {
+                    widget.onApply!(
+                      _selectedGenres,
+                      _selectedPlatforms,
+                      _selectedOrdering,
+                    );
+                  }
+                  Navigator.pop(context);
+                },
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                 ),
-                child: Text(
-                  '$activeFiltersCount filtros activos',
+                child: const Text(
+                  'Aplicar Filtros',
                   style: TextStyle(
-                    color: Theme.of(context).primaryColor,
+                    fontSize: 16,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
             ),
-          Expanded(
-            child: ElevatedButton(
-              onPressed: () {
-                if (widget.onApply != null) {
-                  widget.onApply!(
-                    _selectedGenres,
-                    _selectedPlatforms,
-                    _selectedOrdering,
-                  );
-                }
-                Navigator.pop(context);
-              },
-              style: ElevatedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-              ),
-              child: const Text(
-                'Aplicar Filtros',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -317,16 +387,8 @@ class _FilterSheetState extends State<FilterSheet> {
     });
   }
 
-  IconData _getPlatformIcon(String slug) {
-    if (slug.contains('pc')) return Icons.computer;
-    if (slug.contains('playstation')) return Icons.sports_esports;
-    if (slug.contains('xbox')) return Icons.videogame_asset;
-    if (slug.contains('nintendo')) return Icons.games;
-    if (slug.contains('ios') || slug.contains('android')) {
-      return Icons.phone_android;
-    }
-    return Icons.devices;
-  }
+  // 🎯 MÉTODO ELIMINADO - Ya no es necesario
+  // El PlatformIcon widget maneja los iconos automáticamente
 }
 
 /// Función helper para mostrar el FilterSheet
