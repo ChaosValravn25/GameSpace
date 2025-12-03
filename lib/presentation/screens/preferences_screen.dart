@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import '../../../providers/theme_provider.dart';
 import '../../../providers/locale_provider.dart';
 import 'package:gamespace/data/local/Database_Helper.dart';
-import '../../../config/api_constants.dart';
+import '../../../config/Api_Constants.dart';
 import 'about_screen.dart';
 
 

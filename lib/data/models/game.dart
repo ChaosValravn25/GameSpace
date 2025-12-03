@@ -7,7 +7,7 @@ class Game {
   final int id;
   final String name;
   final String? description;
-  
+
   @JsonKey(name: 'description_raw')
   final String? descriptionRaw;
   
@@ -49,6 +49,13 @@ class Game {
   @JsonKey(includeFromJson: false, includeToJson: false)
   String? collectionType;
 
+   @JsonKey(name: 'website')              // ← NUEVO: para que json_serializable lo mapee
+  final String? website;
+
+  @JsonKey(includeFromJson: false, includeToJson: true)
+  List<Screenshot>? screenshots;
+   // Lo dejaremos null por ahora, o lo mapeas si lo añades al JSON
+
   Game({
     required this.id,
     required this.name,
@@ -68,6 +75,9 @@ class Game {
     this.updated,
     this.isFavorite = false,
     this.collectionType,
+    this.website,
+    this.screenshots,
+    
   });
 
   factory Game.fromJson(Map<String, dynamic> json) => _$GameFromJson(json);
@@ -87,6 +97,15 @@ class Game {
       'platforms': parentPlatforms?.map((p) => p.platform.name).join(', '),
       'is_favorite': isFavorite ? 1 : 0,
       'collection_type': collectionType,
+      'updated': updated,
+      'playtime': playtime,
+      'ratings_count': ratingsCount,
+      'rating_top': ratingTop,
+      'website': website,
+      'screenshots': screenshots != null ? screenshots!.map((s) => s.image).join(', ') : null,
+      'short_screenshots': shortScreenshots != null ? shortScreenshots!.map((s) => s.image).join(', ') : null,
+      'description_raw': descriptionRaw,
+     
     };
   }
   
@@ -102,14 +121,39 @@ class Game {
       released: map['released'],
       isFavorite: map['is_favorite'] == 1,
       collectionType: map['collection_type'],
+      updated: map['updated'],
+      playtime: map['playtime'],
+      ratingsCount: map['ratings_count'],
+      ratingTop: map['rating_top'],
+      website: map['website'],
+      shortScreenshots: map['short_screenshots'] != null
+          ? (map['short_screenshots'] as String)
+              .split(', ')
+              .asMap()
+              .entries
+              .map((entry) => Screenshot(id: entry.key, image: entry.value))
+              .toList()
+          : null,
+      screenshots: map['screenshots'] != null
+          ? (map['screenshots'] as String)
+              .split(', ')
+              .asMap()
+              .entries
+              .map((entry) => Screenshot(id: entry.key, image: entry.value))
+              .toList()
+          : null,
+
     );
   }
 
-  Null get website => null;
+  
+ 
   
   Game copyWith({
     bool? isFavorite,
     String? collectionType,
+    List<Screenshot>? screenshots,
+    String? website,
   }) {
     return Game(
       id: id,
@@ -130,6 +174,8 @@ class Game {
       updated: updated,
       isFavorite: isFavorite ?? this.isFavorite,
       collectionType: collectionType ?? this.collectionType,
+      website: website ?? this.website,
+      screenshots: screenshots ?? this.screenshots,
     );
   }
 }

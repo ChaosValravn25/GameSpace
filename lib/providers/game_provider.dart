@@ -4,6 +4,7 @@ import 'package:gamespace/core/network/Connectivity_Service.dart';
 import 'package:gamespace/data/local/Database_Helper.dart';
 import '../core/network/Api_Service.dart';
 import '../data/models/game.dart';
+import '../presentation/widgets/screenshots.dart';
 
 class GameProvider with ChangeNotifier {
   final ApiService _apiService;
@@ -18,9 +19,12 @@ class GameProvider with ChangeNotifier {
   List<Game> _searchResults = [];
   
   Game? _selectedGame;
+ 
   bool _isLoading = false;
+ 
   bool _isOnline = true;
   String? _errorMessage;
+ 
   
   int _currentPage = 1;
   bool _hasMore = true;
@@ -179,25 +183,42 @@ class GameProvider with ChangeNotifier {
     }
   }
 
-  // Fetch Game Detail
   Future<void> fetchGameDetail(int gameId) async {
-    try {
-      _isLoading = true;
-      _errorMessage = null;
-      notifyListeners();
+    // Evitamos recargar si ya está cargado
+    if (_selectedGame?.id == gameId && _selectedGame != null) return;
 
-      if (_isOnline) {
-        _selectedGame = await _apiService.getGameDetail(gameId);
-        
-        // Check if favorite
-        final isFav = await _dbHelper.isGameFavorite(gameId);
-        _selectedGame = _selectedGame!.copyWith(isFavorite: isFav);
-      } else {
-        _selectedGame = await _dbHelper.getGameById(gameId);
+    _isLoading = true;
+    _errorMessage = null;
+    notifyListeners();
+
+    try {
+      // 1. Cargamos el detalle principal (incluye website automáticamente)
+      Game game = await _apiService.getGameDetail(gameId);
+
+      // 2. Preservamos datos locales (favorito/colección)
+      final wasFavorite = _selectedGame?.isFavorite ?? false;
+      final wasCollection = _selectedGame?.collectionType;
+
+      // 3. Cargamos screenshots completos (fallback a short_screenshots si falla)
+      List<Screenshot> screenshots = [];
+      try {
+        screenshots = await _apiService.getGameScreenshots(gameId);
+      } catch (e) {
+        print('Error cargando screenshots completos: $e');
+        screenshots = game.shortScreenshots ?? [];
       }
+
+      // 4. Reconstruimos el juego con todo
+      game = game.copyWith(
+        isFavorite: wasFavorite,
+        collectionType: wasCollection,
+        screenshots: screenshots,
+      );
+
+      _selectedGame = game;
     } catch (e) {
-      _errorMessage = e.toString();
-      _selectedGame = await _dbHelper.getGameById(gameId);
+      _errorMessage = 'Error al cargar detalles: $e';
+      print(e);
     } finally {
       _isLoading = false;
       notifyListeners();
