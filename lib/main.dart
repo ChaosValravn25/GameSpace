@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:gamespace/l10n/app_localizations.dart';
-
+import 'package:sqflite/sqflite.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart' show sqfliteFfiInit, databaseFactoryFfi;
 import 'config/theme.dart';
 import 'config/app_routes.dart';
 import 'core/network/Api_Service.dart';
@@ -15,9 +16,12 @@ import 'providers/theme_provider.dart';
 import 'providers/locale_provider.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  sqfliteFfiInit();
+  databaseFactory = databaseFactoryFfi;
+ 
 
   // Inicializar servicios base
   final apiService = ApiService();
@@ -34,6 +38,8 @@ void main() async {
   final collectionRepository = CollectionRepository(
     dbHelper: dbHelper,
   );
+
+ 
 
   runApp(
     GameSpaceApp(
