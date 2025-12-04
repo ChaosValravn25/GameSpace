@@ -224,13 +224,13 @@ abstract class AppLocalizations {
   /// No description provided for @gamesStoredLocally.
   ///
   /// In en, this message translates to:
-  /// **'games stored locally'**
+  /// **'Games stored locally'**
   String get gamesStoredLocally;
 
   /// No description provided for @clearCache.
   ///
   /// In en, this message translates to:
-  /// **'Clear Cache'**
+  /// **'Clear cache'**
   String get clearCache;
 
   /// No description provided for @deleteStoredData.
@@ -254,7 +254,7 @@ abstract class AppLocalizations {
   /// No description provided for @clearSearchHistory.
   ///
   /// In en, this message translates to:
-  /// **'Clear Search History'**
+  /// **'Clear search history'**
   String get clearSearchHistory;
 
   /// No description provided for @deleteRecentSearches.

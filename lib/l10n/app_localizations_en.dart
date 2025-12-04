@@ -72,10 +72,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get cachedGames => 'Cached games';
 
   @override
-  String get gamesStoredLocally => 'games stored locally';
+  String get gamesStoredLocally => 'Games stored locally';
 
   @override
-  String get clearCache => 'Clear Cache';
+  String get clearCache => 'Clear cache';
 
   @override
   String get deleteStoredData => 'Delete stored data';
@@ -87,7 +87,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get cacheCleared => 'Cache cleared successfully';
 
   @override
-  String get clearSearchHistory => 'Clear Search History';
+  String get clearSearchHistory => 'Clear search history';
 
   @override
   String get deleteRecentSearches => 'Delete recent searches';

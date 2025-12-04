@@ -72,10 +72,10 @@ class AppLocalizationsEs extends AppLocalizations {
   String get cachedGames => 'Juegos en caché';
 
   @override
-  String get gamesStoredLocally => 'juegos guardados localmente';
+  String get gamesStoredLocally => 'Juegos guardados localmente';
 
   @override
-  String get clearCache => 'Limpiar Caché';
+  String get clearCache => 'Limpiar caché';
 
   @override
   String get deleteStoredData => 'Eliminar datos guardados';
@@ -84,10 +84,10 @@ class AppLocalizationsEs extends AppLocalizations {
   String get clearCacheConfirmation => '¿Estás seguro de que deseas eliminar todos los datos guardados? Esto incluye juegos descargados y tu colección local.';
 
   @override
-  String get cacheCleared => 'Caché eliminado correctamente';
+  String get cacheCleared => 'Caché eliminada correctamente';
 
   @override
-  String get clearSearchHistory => 'Limpiar Historial de Búsqueda';
+  String get clearSearchHistory => 'Limpiar historial de búsqueda';
 
   @override
   String get deleteRecentSearches => 'Borrar búsquedas recientes';
@@ -165,10 +165,10 @@ class AppLocalizationsEs extends AppLocalizations {
   String get error => 'Error';
 
   @override
-  String get noInternet => 'No internet connection';
+  String get noInternet => 'No hay conexión a internet';
 
   @override
-  String get noInternetMessage => 'Please check your connection and try again.';
+  String get noInternetMessage => 'Por favor, revisa tu conexión e inténtalo nuevamente.';
 
   @override
   String get noResults => 'No se encontraron resultados';
@@ -180,94 +180,94 @@ class AppLocalizationsEs extends AppLocalizations {
   String get noDescription => 'No hay descripción disponible';
 
   @override
-  String get noFavorites => 'No favorites yet';
+  String get noFavorites => 'No tienes favoritos aún';
 
   @override
-  String get noRecentGames => 'No recent games';
+  String get noRecentGames => 'No hay juegos recientes';
 
   @override
-  String get noWishlist => 'Your wishlist is empty';
+  String get noWishlist => 'Tu lista de deseos está vacía';
 
   @override
-  String get noCollection => 'Your collection is empty';
+  String get noCollection => 'Tu colección está vacía';
 
   @override
-  String get noSearchResults => 'No search results found';
+  String get noSearchResults => 'No se encontraron resultados de búsqueda';
 
   @override
-  String get noGamesFound => 'No games found';
+  String get noGamesFound => 'No se encontraron juegos';
 
   @override
-  String get noGenres => 'No genres available';
+  String get noGenres => 'No hay géneros disponibles';
 
   @override
-  String get noPlatforms => 'No platforms available';
+  String get noPlatforms => 'No hay plataformas disponibles';
 
   @override
-  String get noScreenshots => 'No screenshots available';
+  String get noScreenshots => 'No hay capturas disponibles';
 
   @override
-  String get noRatings => 'No ratings available';
+  String get noRatings => 'No hay valoraciones disponibles';
 
   @override
-  String get noReviews => 'No reviews available';
+  String get noReviews => 'No hay reseñas disponibles';
 
   @override
-  String get noComments => 'No comments yet';
+  String get noComments => 'Aún no hay comentarios';
 
   @override
-  String get noData => 'No data available';
+  String get noData => 'No hay datos disponibles';
 
   @override
-  String get noContent => 'No content available';
+  String get noContent => 'No hay contenido disponible';
 
   @override
-  String get noConnection => 'No connection';
+  String get noConnection => 'Sin conexión';
 
   @override
-  String get noConnectionMessage => 'You\'re viewing saved content. Connect to the internet to update.';
+  String get noConnectionMessage => 'Estás viendo contenido guardado. Conéctate a internet para actualizar.';
 
   @override
-  String get noFavoritesMessage => 'Start adding games to your favorites from the Explore section';
+  String get noFavoritesMessage => 'Agrega juegos a tus favoritos desde la sección Explorar';
 
   @override
-  String get noRecentGamesMessage => 'Play some games to see them here';
+  String get noRecentGamesMessage => 'Juega algunos juegos para verlos aquí';
 
   @override
-  String get noWishlistMessage => 'Add games to your wishlist from the Explore section';
+  String get noWishlistMessage => 'Agrega juegos a tu lista de deseos desde la sección Explorar';
 
   @override
-  String get noCollectionMessage => 'Start adding games to your collection from the Explore section';
+  String get noCollectionMessage => 'Comienza a agregar juegos a tu colección desde Explorar';
 
   @override
-  String get noSearchResultsMessage => 'Try searching for a different game';
+  String get noSearchResultsMessage => 'Intenta buscar un juego diferente';
 
   @override
-  String get noGamesFoundMessage => 'No games match your search criteria';
+  String get noGamesFoundMessage => 'No hay juegos que coincidan con tu búsqueda';
 
   @override
-  String get noGenresMessage => 'No genres available to filter';
+  String get noGenresMessage => 'No hay géneros disponibles para filtrar';
 
   @override
-  String get noPlatformsMessage => 'No platforms available to filter';
+  String get noPlatformsMessage => 'No hay plataformas disponibles para filtrar';
 
   @override
-  String get noScreenshotsMessage => 'No screenshots available for this game';
+  String get noScreenshotsMessage => 'No hay capturas disponibles para este juego';
 
   @override
-  String get noRatingsMessage => 'No ratings available for this game';
+  String get noRatingsMessage => 'No hay valoraciones para este juego';
 
   @override
-  String get noReviewsMessage => 'No reviews available for this game';
+  String get noReviewsMessage => 'No hay reseñas para este juego';
 
   @override
-  String get noCommentsMessage => 'No comments yet, be the first to comment';
+  String get noCommentsMessage => 'Aún no hay comentarios, sé el primero en comentar';
 
   @override
-  String get noDataMessage => 'No data available at the moment';
+  String get noDataMessage => 'No hay datos disponibles por el momento';
 
   @override
-  String get noContentMessage => 'No content available, check back later';
+  String get noContentMessage => 'No hay contenido disponible, vuelve más tarde';
 
   @override
   String get popularGames => 'Juegos Populares';
@@ -393,7 +393,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get emptyCollection => 'Tu colección está vacía';
 
   @override
-  String get emptyCollectionMessage => 'Comienza a agregar juegos a tu colección desde la sección Explorar';
+  String get emptyCollectionMessage => 'Comienza a agregar juegos a tu colección desde Explorar';
 
   @override
   String get confirmDelete => '¿Eliminar juego?';
@@ -402,7 +402,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get confirmDeleteMessage => '¿Estás seguro de que deseas eliminar este juego de tu colección?';
 
   @override
-  String get searchHint => 'Escribe el nombre de un juego';
+  String get searchHint => 'Escribe un nombre de juego';
 
   @override
   String get recentSearches => 'Búsquedas Recientes';

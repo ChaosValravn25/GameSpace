@@ -35,48 +35,44 @@
   "@search": {
     "description": "Hint del campo de búsqueda"
   },
-  
-  "settings": "Preferencias",
+   "settings": "Preferencias",
   "appearance": "Apariencia",
   "language": "Idioma",
   "data": "Datos",
   "information": "Información",
   "support": "Soporte",
-  
   "theme": "Tema",
   "lightMode": "Modo Claro",
   "darkMode": "Modo Oscuro",
   "systemMode": "Modo Sistema",
   "selectTheme": "Seleccionar Tema",
-  
   "selectLanguage": "Seleccionar Idioma",
   "languageChanged": "Idioma cambiado correctamente",
-  
+
   "cachedGames": "Juegos en caché",
-  "gamesStoredLocally": "juegos guardados localmente",
+  "gamesStoredLocally": "Juegos guardados localmente",
   "clearCache": "Limpiar caché",
   "deleteStoredData": "Eliminar datos guardados",
   "clearCacheConfirmation": "¿Estás seguro de que deseas eliminar todos los datos guardados? Esto incluye juegos descargados y tu colección local.",
-  "cacheCleared": "Caché eliminado correctamente",
-  
+  "cacheCleared": "Caché eliminada correctamente",
+
   "clearSearchHistory": "Limpiar historial de búsqueda",
   "deleteRecentSearches": "Borrar búsquedas recientes",
   "clearSearchHistoryConfirmation": "¿Deseas eliminar todas tus búsquedas recientes?",
   "historyCleared": "Historial eliminado correctamente",
-  
+
   "version": "Versión",
   "versionInformation": "Información de Versión",
   "app": "Aplicación",
-  "about": "Acerca de",
   "appInformation": "Información de la aplicación",
-  
+
   "sendFeedback": "Enviar comentarios",
   "helpUsImprove": "Ayúdanos a mejorar",
   "tellUsYourExperience": "Cuéntanos tu experiencia con GameSpace",
   "writeYourComments": "Escribe tus comentarios aquí...",
   "thanksForFeedback": "¡Gracias por tus comentarios!",
   "send": "Enviar",
-  
+
   "rateApp": "Calificar aplicación",
   "giveUsYourOpinion": "Danos tu opinión en la tienda",
   "rateGameSpace": "Calificar GameSpace",
@@ -85,35 +81,57 @@
   "thanksForSupport": "¡Gracias por tu apoyo!",
   "rate": "Calificar",
   "later": "Más tarde",
-  
   "cancel": "Cancelar",
   "delete": "Eliminar",
   "close": "Cerrar",
-  "error": "Error",
-  "ok": "Aceptar",
-  "yes": "Sí",
-  "no": "No",
-  "apply": "Aplicar",
-  "save": "Guardar",
-  "reset": "Restablecer",
-  "resetToDefault": "Restablecer a predeterminado",
-  "resetConfirmation": "¿Estás seguro de que deseas restablecer todas las preferencias a sus valores predeterminados?",
-  "resetSuccess": "Preferencias restablecidas correctamente",
-  "viewMore": "Ver más",
-  "viewLess": "Ver menos",
-  "loadMore": "Cargar más",
-  "loading": "Cargando...",
-  
 
+  "error": "Error",
+  "noInternet": "No hay conexión a internet",
+  "noInternetMessage": "Por favor, revisa tu conexión e inténtalo nuevamente.",
+
+  "noResults": "No se encontraron resultados",
+  "noGames": "No hay juegos disponibles",
+  "noDescription": "No hay descripción disponible",
+  "noFavorites": "No tienes favoritos aún",
+  "noRecentGames": "No hay juegos recientes",
+  "noWishlist": "Tu lista de deseos está vacía",
+  "noCollection": "Tu colección está vacía",
+  "noSearchResults": "No se encontraron resultados de búsqueda",
+  "noGamesFound": "No se encontraron juegos",
+  "noGenres": "No hay géneros disponibles",
+  "noPlatforms": "No hay plataformas disponibles",
+  "noScreenshots": "No hay capturas disponibles",
+  "noRatings": "No hay valoraciones disponibles",
+  "noReviews": "No hay reseñas disponibles",
+  "noComments": "Aún no hay comentarios",
+  "noData": "No hay datos disponibles",
+  "noContent": "No hay contenido disponible",
+  "noConnection": "Sin conexión",
+  "noConnectionMessage": "Estás viendo contenido guardado. Conéctate a internet para actualizar.",
+  "noFavoritesMessage": "Agrega juegos a tus favoritos desde la sección Explorar",
+  "noRecentGamesMessage": "Juega algunos juegos para verlos aquí",
+  "noWishlistMessage": "Agrega juegos a tu lista de deseos desde la sección Explorar",
+  "noCollectionMessage": "Comienza a agregar juegos a tu colección desde Explorar",
+  "noSearchResultsMessage": "Intenta buscar un juego diferente",
+  "noGamesFoundMessage": "No hay juegos que coincidan con tu búsqueda",
+  "noGenresMessage": "No hay géneros disponibles para filtrar",
+  "noPlatformsMessage": "No hay plataformas disponibles para filtrar",
+  "noScreenshotsMessage": "No hay capturas disponibles para este juego",
+  "noRatingsMessage": "No hay valoraciones para este juego",
+  "noReviewsMessage": "No hay reseñas para este juego",
+  "noCommentsMessage": "Aún no hay comentarios, sé el primero en comentar",
+  "noDataMessage": "No hay datos disponibles por el momento",
+  "noContentMessage": "No hay contenido disponible, vuelve más tarde",
 
   "popularGames": "Juegos Populares",
   "recentGames": "Lanzamientos Recientes",
   "topRated": "Mejor Valorados",
+
   "favorites": "Favoritos",
   "playing": "Jugando",
   "completed": "Completados",
   "wishlist": "Lista de Deseos",
-  
+
   "rating": "Valoración",
   "metacritic": "Metacritic",
   "releaseDate": "Fecha de Lanzamiento",
@@ -121,65 +139,52 @@
   "platforms": "Plataformas",
   "playtime": "Tiempo de Juego",
   "hours": "horas",
-  
+
   "addToFavorites": "Agregar a Favoritos",
   "removeFromFavorites": "Quitar de Favoritos",
   "addToCollection": "Agregar a Colección",
   "share": "Compartir",
   "openWebsite": "Abrir Sitio Web",
-  
+
   "description": "Descripción",
   "screenshots": "Capturas de Pantalla",
-  "noDescription": "No hay descripción disponible",
-  "noGames": "No hay juegos disponibles",
-  "noResults": "No se encontraron resultados",
-  
+
   "loading": "Cargando...",
   "loadMore": "Cargar más",
   "refresh": "Actualizar",
-  "error": "Error",
   "retry": "Reintentar",
-  
   "online": "En línea",
   "offline": "Sin conexión",
   "offlineMode": "Modo sin conexión",
   "offlineMessage": "Estás viendo contenido guardado. Conéctate a internet para actualizar.",
-  
-  "language": "Idioma",
-  "theme": "Tema",
+
   "lightTheme": "Claro",
   "darkTheme": "Oscuro",
   "systemTheme": "Sistema",
-  
-  "clearCache": "Limpiar Caché",
-  "clearSearchHistory": "Limpiar Historial de Búsqueda",
-  "version": "Versión",
-  
+
   "aboutTitle": "Acerca de GameSpace",
   "aboutDescription": "GameSpace es una aplicación para descubrir y gestionar tu colección personal de videojuegos.",
   "developedBy": "Desarrollado por",
   "poweredBy": "Powered by RAWG API",
-  
+
   "filterByGenre": "Filtrar por Género",
   "filterByPlatform": "Filtrar por Plataforma",
   "sortBy": "Ordenar por",
   "apply": "Aplicar",
-  "cancel": "Cancelar",
-  
+
   "emptyCollection": "Tu colección está vacía",
-  "emptyCollectionMessage": "Comienza a agregar juegos a tu colección desde la sección Explorar",
-  
+  "emptyCollectionMessage": "Comienza a agregar juegos a tu colección desde Explorar",
+
   "confirmDelete": "¿Eliminar juego?",
   "confirmDeleteMessage": "¿Estás seguro de que deseas eliminar este juego de tu colección?",
-  "delete": "Eliminar",
-  
-  "searchHint": "Escribe el nombre de un juego",
+
+  "searchHint": "Escribe un nombre de juego",
   "recentSearches": "Búsquedas Recientes",
-  
+
   "errorLoadingGames": "Error al cargar los juegos",
   "errorLoadingDetails": "Error al cargar los detalles del juego",
   "errorNoConnection": "No hay conexión a internet",
-  
+
   "viewMore": "Ver más",
   "viewLess": "Ver menos"
 }

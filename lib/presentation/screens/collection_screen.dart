@@ -33,7 +33,10 @@ class _CollectionScreenState extends State<CollectionScreen>
 
   Future<void> _loadCollections() async {
     final provider = context.read<GameProvider>();
-    await provider.loadFavorites(); // Solo precarga favoritos (está bien)
+    await provider.loadFavorites(); 
+    await provider.loadCollection(AppConstants.collectionPlaying);
+    await provider.loadCollection(AppConstants.collectionCompleted);
+    await provider.loadCollection(AppConstants.collectionWishlist);// Solo precarga favoritos (está bien)
   }
 
   @override

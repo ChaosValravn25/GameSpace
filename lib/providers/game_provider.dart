@@ -1,9 +1,12 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:gamespace/config/Api_Constants.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../core/network/Connectivity_Service.dart';
 import '../core/network/Api_Service.dart';
 import '../data/local/Database_Helper.dart';
 import '../data/models/game.dart';
+import '../presentation/screens/collection_screen.dart';
 
 class GameProvider with ChangeNotifier {
   final ApiService _apiService;
@@ -16,6 +19,9 @@ class GameProvider with ChangeNotifier {
   List<Game> _recentGames = [];
   List<Game> _favoriteGames = [];
   List<Game> _searchResults = [];
+  List<Game> _wishlist = [];
+  List<Game> _playing = [];
+  List<Game> _completed = [];
 
   Game? _selectedGame;
 
@@ -43,6 +49,9 @@ class GameProvider with ChangeNotifier {
   String? get errorMessage => _errorMessage;
   bool get hasMore => _hasMore;
   String get currentOrdering => _currentOrdering;
+  List<Game> get wishlist => _wishlist; 
+  List<Game> get playing => _playing;
+  List<Game> get completed => _completed;
 
   GameProvider({
     required ApiService apiService,
@@ -509,6 +518,23 @@ Future<void> fetchGames({
     try {
       final games = await _dbHelper.getGamesByCollection(collectionType);
       print('✅ Loaded ${games.length} games from collection: $collectionType');
+
+      switch(collectionType) {
+        case AppConstants.collectionFavorites:
+          _favoriteGames = games;
+          break;
+        case AppConstants.collectionPlaying:
+          _playing = games;
+          break;
+        case AppConstants.collectionCompleted: 
+          _completed = games;
+          break;
+        case AppConstants.collectionWishlist:
+          _wishlist = games;
+          break;
+        // Puedes agregar más listas si decides mantenerlas separadas
+      }
+
       return games;
     } catch (e) {
       _errorMessage = e.toString();
