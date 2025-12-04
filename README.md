@@ -92,6 +92,12 @@ lib/
 │   └── app_en.arb
 └── main.dart
 
+
+### Diagrama de Flujo
+
+<img width="941" height="751" alt="GameSpace drawio" src="https://github.com/user-attachments/assets/f3ef48cc-e45b-450d-9fde-c966875d94c2" />
+
+
 ### Dependencias Principales
 
 ```yaml
