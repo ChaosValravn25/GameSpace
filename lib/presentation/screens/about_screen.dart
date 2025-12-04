@@ -33,9 +33,9 @@ class AboutScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              child: const Icon(
-                Icons.videogame_asset,
-                size: 64,
+              child:Image.asset(
+                'assets/icons/GAmeSpaceLogo.png',   // ← pon aquí la ruta de tu logo
+                fit: BoxFit.contain,
                 color: Colors.white,
               ),
             ),

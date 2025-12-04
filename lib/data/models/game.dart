@@ -56,6 +56,8 @@ class Game {
   List<Screenshot>? screenshots;
    // Lo dejaremos null por ahora, o lo mapeas si lo añades al JSON
 
+
+
   Game({
     required this.id,
     required this.name,
@@ -77,6 +79,7 @@ class Game {
     this.collectionType,
     this.website,
     this.screenshots,
+
     
   });
 
@@ -87,24 +90,19 @@ class Game {
   Map<String, dynamic> toSqliteMap() {
     return {
       'id': id,
-      'name': name,
-      'description': descriptionRaw ?? description,
-      'background_image': backgroundImage,
-      'rating': rating,
-      'metacritic': metacritic,
-      'released': released,
-      'genres': genres?.map((g) => g.name).join(', '),
-      'platforms': parentPlatforms?.map((p) => p.platform.name).join(', '),
-      'is_favorite': isFavorite ? 1 : 0,
-      'collection_type': collectionType,
-      'updated': updated,
-      'playtime': playtime,
-      'ratings_count': ratingsCount,
-      'rating_top': ratingTop,
-      'website': website,
-      'screenshots': screenshots?.map((s) => s.image).join(', '),
-      'short_screenshots': shortScreenshots?.map((s) => s.image).join(', '),
-      'description_raw': descriptionRaw,
+    'name': name,
+    'description': descriptionRaw ?? description,
+    'background_image': backgroundImage,
+    'rating': rating,
+    'metacritic': metacritic,
+    'released': released,
+    'genres': genres?.map((g) => g.name).join(', '),
+    'platforms': parentPlatforms?.map((p) => p.platform.name).join(', '),
+    'is_favorite': isFavorite ? 1 : 0,
+    'collection_type': collectionType,
+    'updated': updated,
+    'website': website,
+    'screenshots': shortScreenshots != null? shortScreenshots!.map((s) => s.image).join(', '): null,
      
     };
   }
@@ -113,35 +111,27 @@ class Game {
   factory Game.fromSqliteMap(Map<String, dynamic> map) {
     return Game(
       id: map['id'],
-      name: map['name'],
-      descriptionRaw: map['description'],
-      backgroundImage: map['background_image'],
-      rating: map['rating'],
-      metacritic: map['metacritic'],
-      released: map['released'],
-      isFavorite: map['is_favorite'] == 1,
-      collectionType: map['collection_type'],
-      updated: map['updated'],
-      playtime: map['playtime'],
-      ratingsCount: map['ratings_count'],
-      ratingTop: map['rating_top'],
-      website: map['website'],
-      shortScreenshots: map['short_screenshots'] != null
-          ? (map['short_screenshots'] as String)
-              .split(', ')
-              .asMap()
-              .entries
-              .map((entry) => Screenshot(id: entry.key, image: entry.value))
-              .toList()
-          : null,
-      screenshots: map['screenshots'] != null
-          ? (map['screenshots'] as String)
-              .split(', ')
-              .asMap()
-              .entries
-              .map((entry) => Screenshot(id: entry.key, image: entry.value))
-              .toList()
-          : null,
+    name: map['name'],
+    descriptionRaw: map['description'],
+    backgroundImage: map['background_image'],
+    rating: map['rating']?.toDouble(),
+    metacritic: map['metacritic'],
+    released: map['released'],
+    isFavorite: map['is_favorite'] == 1,
+    collectionType: map['collection_type'],
+    updated: map['updated'],
+    website: map['website'],
+
+    shortScreenshots: map['screenshots'] != null
+        ? (map['screenshots'] as String)
+            .split(', ')
+            .asMap()
+            .entries
+            .map((entry) => Screenshot(id: entry.key, image: entry.value))
+            .toList()
+        : null,
+
+    screenshots: null,
 
     );
   }

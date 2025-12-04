@@ -39,12 +39,19 @@ class DatabaseHelper {
         metacritic INTEGER,
         released TEXT,
         genres TEXT,
+        updated TEXT,
         platforms TEXT,
         is_favorite INTEGER DEFAULT 0,
         collection_type TEXT,
         added_at TEXT DEFAULT CURRENT_TIMESTAMP,
         website TEXT,
-        screenshots TEXT
+        description_raw TEXT,
+        screenshots TEXT,
+        updated_at TEXT,
+        UNIQUE(id),
+        CHECK(is_favorite IN (0,1)),
+        CHECK(collection_type IN ('playing', 'completed', 'wishlist') OR collection_type IS NULL)
+
       )
     ''');
 
@@ -110,7 +117,8 @@ Future<Game?> getGameById(int id) async {
 
   if (maps.isEmpty) return null;
   
-  return Game.fromJson(maps.first);
+  //return Game.fromJson(maps.first) ;
+  return Game.fromSqliteMap(maps.first);
 }
   // ✅ NECESARIO: Insertar favorito
 Future<void> insertFavorite(Game game) async {
@@ -166,7 +174,8 @@ Future<List<Game>> getFavoriteGames() async {
     orderBy: 'updated_at DESC',
   );
 
-  return maps.map((map) => Game.fromJson(map)).toList();
+  //return maps.map((map) => Game.fromJson(map)).toList();
+  return maps.map((map) => Game.fromSqliteMap(map)).toList();
 }
 
  // ✅ NECESARIO: Obtener juegos de una colección
@@ -179,7 +188,8 @@ Future<List<Game>> getGamesByCollection(String collectionType) async {
     orderBy: 'updated_at DESC',
   );
 
-  return maps.map((map) => Game.fromJson(map)).toList();
+ // return maps.map((map) => Game.fromJson(map)).toList();
+  return maps.map((map) => Game.fromSqliteMap(map)).toList();
 }
 
   // Actualizar estado de favorito
