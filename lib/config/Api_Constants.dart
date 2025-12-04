@@ -37,7 +37,7 @@ class AppConstants {
   
   // Database
   static const String dbName = 'gamespace.db';
-  static const int dbVersion = 1;
+  static const int dbVersion = 3;
   
   // SharedPreferences Keys
   static const String keyLanguage = 'language';

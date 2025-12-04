@@ -27,6 +27,7 @@ class DatabaseHelper {
     );
   }
 
+  // 🔧 LÍNEA 32: Tabla corregida
   Future<void> _createDB(Database db, int version) async {
     // Tabla de juegos favoritos y colecciones
     await db.execute('''
@@ -39,19 +40,20 @@ class DatabaseHelper {
         metacritic INTEGER,
         released TEXT,
         genres TEXT,
-        updated TEXT,
         platforms TEXT,
         is_favorite INTEGER DEFAULT 0,
         collection_type TEXT,
-        added_at TEXT DEFAULT CURRENT_TIMESTAMP,
-        website TEXT,
-        description_raw TEXT,
-        screenshots TEXT,
         updated_at TEXT,
+        playtime INTEGER,
+        ratings_count INTEGER,
+        rating_top INTEGER,
+        website TEXT,
+        screenshots TEXT,
+        short_screenshots TEXT,
+        description_raw TEXT,
         UNIQUE(id),
         CHECK(is_favorite IN (0,1)),
         CHECK(collection_type IN ('playing', 'completed', 'wishlist') OR collection_type IS NULL)
-
       )
     ''');
 
@@ -75,129 +77,186 @@ class DatabaseHelper {
     // Índices para mejorar rendimiento
     await db.execute('CREATE INDEX idx_games_favorite ON games(is_favorite)');
     await db.execute('CREATE INDEX idx_games_collection ON games(collection_type)');
+    await db.execute('CREATE INDEX idx_games_updated ON games(updated_at DESC)');
   }
 
+  // 🔧 LÍNEA 85: Migración corregida
   Future<void> _upgradeDB(Database db, int oldVersion, int newVersion) async {
-    // Implementar migraciones si hay cambios en el esquema
     if (oldVersion < 2) {
-      // Ejemplo de migración
-      // await db.execute('ALTER TABLE games ADD COLUMN new_field TEXT');
-      await db.execute('ALTER TABLE games ADD COLUMN website TEXT');
-      await db.execute('ALTER TABLE games ADD COLUMN screenshots TEXT');
+      // Agregar columnas faltantes si existen tablas viejas
+      try {
+        await db.execute('ALTER TABLE games ADD COLUMN website TEXT');
+      } catch (e) {
+        print('Column website already exists or error: $e');
+      }
+      
+      try {
+        await db.execute('ALTER TABLE games ADD COLUMN screenshots TEXT');
+      } catch (e) {
+        print('Column screenshots already exists or error: $e');
+      }
+      
+      try {
+        await db.execute('ALTER TABLE games ADD COLUMN updated_at TEXT');
+      } catch (e) {
+        print('Column updated_at already exists or error: $e');
+      }
+      
+      try {
+        await db.execute('ALTER TABLE games ADD COLUMN playtime INTEGER');
+      } catch (e) {
+        print('Column playtime already exists or error: $e');
+      }
+      
+      try {
+        await db.execute('ALTER TABLE games ADD COLUMN ratings_count INTEGER');
+      } catch (e) {
+        print('Column ratings_count already exists or error: $e');
+      }
+      
+      try {
+        await db.execute('ALTER TABLE games ADD COLUMN rating_top INTEGER');
+      } catch (e) {
+        print('Column rating_top already exists or error: $e');
+      }
     }
   }
 
   // CRUD Operations for Games
 
-  // Insertar o actualizar juego
+  // 🔧 LÍNEA 135: Insertar juego CORREGIDO
   Future<int> insertGame(Game game) async {
     final db = await database;
-    return await db.insert(
-      'games',
-      game.toSqliteMap(),
-      conflictAlgorithm: ConflictAlgorithm.replace,
-    );
+    try {
+      return await db.insert(
+        'games',
+        game.toSqliteMap(), // Ya convierte correctamente a primitivos
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
+    } catch (e) {
+      print('❌ Error inserting game: $e');
+      rethrow;
+    }
   }
 
   // Obtener todos los juegos guardados
   Future<List<Game>> getAllGames() async {
     final db = await database;
-    final maps = await db.query('games', orderBy: 'added_at DESC');
+    final maps = await db.query('games', orderBy: 'updated_at DESC');
     return maps.map((map) => Game.fromSqliteMap(map)).toList();
   }
 
- // ✅ NECESARIO: Obtener juego por ID
-Future<Game?> getGameById(int id) async {
-  final db = await database;
-  final maps = await db.query(
-    'games',
-    where: 'id = ?',
-    whereArgs: [id],
-  );
+  // Obtener juego por ID
+  Future<Game?> getGameById(int id) async {
+    final db = await database;
+    final maps = await db.query(
+      'games',
+      where: 'id = ?',
+      whereArgs: [id],
+    );
 
-  if (maps.isEmpty) return null;
-  
-  //return Game.fromJson(maps.first) ;
-  return Game.fromSqliteMap(maps.first);
-}
-  // ✅ NECESARIO: Insertar favorito
-Future<void> insertFavorite(Game game) async {
-  final db = await database;
-  
-  await db.insert(
-    'games',
-    {
-      ...game.toJson(),
-      'is_favorite': 1,  // ← Importante
-      'updated_at': DateTime.now().toIso8601String(),
-    },
-    conflictAlgorithm: ConflictAlgorithm.replace,
-  );
-}
+    if (maps.isEmpty) return null;
+    return Game.fromSqliteMap(maps.first);
+  }
 
-  // ✅ NECESARIO: Eliminar favorito
-Future<void> deleteFavorite(int id) async {
-  final db = await database;
-  
-  // NO eliminar el juego, solo quitar marca de favorito
-  await db.update(
-    'games',
-    {'is_favorite': 0},
-    where: 'id = ?',
-    whereArgs: [id],
-  );
-}
+  // 🔧 LÍNEA 175: insertFavorite CORREGIDO
+  Future<void> insertFavorite(Game game) async {
+    final db = await database;
 
-  // ✅ NECESARIO: Agregar a colección
-Future<void> addToCollection(Game game, String collectionType) async {
-  final db = await database;
-  
-  await db.insert(
-    'games',
-    {
-      ...game.toJson(),
-      'collection_type': collectionType,  // ← Importante
-      'updated_at': DateTime.now().toIso8601String(),
-    },
-    conflictAlgorithm: ConflictAlgorithm.replace,
-  );
-}
+    try {
+      final map = game.toSqliteMap();
+      map['is_favorite'] = 1;
+      map['updated_at'] = DateTime.now().toIso8601String();
 
- 
-  // ✅ NECESARIO: Obtener favoritos
-Future<List<Game>> getFavoriteGames() async {
-  final db = await database;
-  final maps = await db.query(
-    'games',
-    where: 'is_favorite = ?',
-    whereArgs: [1],
-    orderBy: 'updated_at DESC',
-  );
+      await db.insert(
+        'games',
+        map,
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
+      
+      print('✅ Favorite saved: ${game.name}');
+    } catch (e) {
+      print('❌ Error saving favorite: $e');
+      rethrow;
+    }
+  }
 
-  //return maps.map((map) => Game.fromJson(map)).toList();
-  return maps.map((map) => Game.fromSqliteMap(map)).toList();
-}
+  // Eliminar favorito
+  Future<void> deleteFavorite(int id) async {
+    final db = await database;
 
- // ✅ NECESARIO: Obtener juegos de una colección
-Future<List<Game>> getGamesByCollection(String collectionType) async {
-  final db = await database;
-  final maps = await db.query(
-    'games',
-    where: 'collection_type = ?',
-    whereArgs: [collectionType],
-    orderBy: 'updated_at DESC',
-  );
+    await db.update(
+      'games',
+      {
+        'is_favorite': 0,
+        'updated_at': DateTime.now().toIso8601String(),
+      },
+      where: 'id = ?',
+      whereArgs: [id],
+    );
+    
+    print('✅ Favorite removed: $id');
+  }
 
- // return maps.map((map) => Game.fromJson(map)).toList();
-  return maps.map((map) => Game.fromSqliteMap(map)).toList();
-}
+  // 🔧 LÍNEA 215: addToCollection CORREGIDO
+  Future<void> addToCollection(Game game, String collectionType) async {
+    final db = await database;
+
+    try {
+      final map = game.toSqliteMap();
+      map['collection_type'] = collectionType;
+      map['updated_at'] = DateTime.now().toIso8601String();
+
+      await db.insert(
+        'games',
+        map,
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
+      
+      print('✅ Added to collection "$collectionType": ${game.name}');
+    } catch (e) {
+      print('❌ Error adding to collection: $e');
+      print('   Game: ${game.name}');
+      print('   Collection: $collectionType');
+      rethrow;
+    }
+  }
+
+  // Obtener favoritos
+  Future<List<Game>> getFavoriteGames() async {
+    final db = await database;
+    final maps = await db.query(
+      'games',
+      where: 'is_favorite = ?',
+      whereArgs: [1],
+      orderBy: 'updated_at DESC',
+    );
+
+    return maps.map((map) => Game.fromSqliteMap(map)).toList();
+  }
+
+  // Obtener juegos de una colección
+  Future<List<Game>> getGamesByCollection(String collectionType) async {
+    final db = await database;
+    final maps = await db.query(
+      'games',
+      where: 'collection_type = ?',
+      whereArgs: [collectionType],
+      orderBy: 'updated_at DESC',
+    );
+
+    return maps.map((map) => Game.fromSqliteMap(map)).toList();
+  }
 
   // Actualizar estado de favorito
   Future<int> updateFavoriteStatus(int gameId, bool isFavorite) async {
     final db = await database;
     return await db.update(
       'games',
-      {'is_favorite': isFavorite ? 1 : 0},
+      {
+        'is_favorite': isFavorite ? 1 : 0,
+        'updated_at': DateTime.now().toIso8601String(),
+      },
       where: 'id = ?',
       whereArgs: [gameId],
     );
@@ -208,7 +267,10 @@ Future<List<Game>> getGamesByCollection(String collectionType) async {
     final db = await database;
     return await db.update(
       'games',
-      {'collection_type': collectionType},
+      {
+        'collection_type': collectionType,
+        'updated_at': DateTime.now().toIso8601String(),
+      },
       where: 'id = ?',
       whereArgs: [gameId],
     );
@@ -278,7 +340,7 @@ Future<List<Game>> getGamesByCollection(String collectionType) async {
       where: 'key = ?',
       whereArgs: [key],
     );
-    
+
     if (maps.isEmpty) return null;
     return maps.first['value'] as String;
   }
@@ -289,12 +351,21 @@ Future<List<Game>> getGamesByCollection(String collectionType) async {
     final db = await database;
     await db.delete('games');
     await db.delete('search_cache');
+    print('✅ All data cleared');
   }
 
   Future<int> getGamesCount() async {
     final db = await database;
     final result = await db.rawQuery('SELECT COUNT(*) as count FROM games');
     return Sqflite.firstIntValue(result) ?? 0;
+  }
+
+  // 🆕 Método para recrear tabla (si es necesario)
+  Future<void> recreateGamesTable() async {
+    final db = await database;
+    await db.execute('DROP TABLE IF EXISTS games');
+    await _createDB(db, AppConstants.dbVersion);
+    print('✅ Games table recreated');
   }
 
   Future<void> close() async {

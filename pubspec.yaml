@@ -85,6 +85,9 @@ l10n:
   output-localization-file: app_localizations.dart
   synthetic-package: true
 
+  
+  untranslated-messages-file: l10n_missing_es.json
+
 flutter_intl:
   enabled: true
 

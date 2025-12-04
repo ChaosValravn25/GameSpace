@@ -86,57 +86,92 @@ class Game {
   factory Game.fromJson(Map<String, dynamic> json) => _$GameFromJson(json);
   Map<String, dynamic> toJson() => _$GameToJson(this);
   
-  // Helper para convertir a Map para SQLite
-  Map<String, dynamic> toSqliteMap() {
-    return {
-      'id': id,
+// Helper para convertir a Map para SQLite
+Map<String, dynamic> toSqliteMap() {
+  return {
+    'id': id,
     'name': name,
     'description': descriptionRaw ?? description,
     'background_image': backgroundImage,
     'rating': rating,
     'metacritic': metacritic,
     'released': released,
-    'genres': genres?.map((g) => g.name).join(', '),
-    'platforms': parentPlatforms?.map((p) => p.platform.name).join(', '),
+    
+    // 🔧 CORREGIDO: Convertir List<Genre> a String
+    'genres': genres != null && genres!.isNotEmpty
+        ? genres!.map((g) => g.name).join(', ')
+        : null,
+    
+    // 🔧 CORREGIDO: Convertir List<ParentPlatform> a String
+    'platforms': parentPlatforms != null && parentPlatforms!.isNotEmpty
+        ? parentPlatforms!.map((p) => p.platform.name).join(', ')
+        : platforms != null && platforms!.isNotEmpty
+            ? platforms!.map((p) => p.platform.name).join(', ')
+            : null,
+    
     'is_favorite': isFavorite ? 1 : 0,
     'collection_type': collectionType,
-    'updated': updated,
+    'updated_at': updated ?? DateTime.now().toIso8601String(),
+    'playtime': playtime,
+    'ratings_count': ratingsCount,
+    'rating_top': ratingTop,
     'website': website,
-    'screenshots': shortScreenshots != null? shortScreenshots!.map((s) => s.image).join(', '): null,
-     
-    };
-  }
+    'description_raw': descriptionRaw,
+    
+    // 🔧 CORREGIDO: Convertir List<Screenshot> a String
+    'screenshots': screenshots != null && screenshots!.isNotEmpty
+        ? screenshots!.map((s) => s.image).join('|||')
+        : null,
+    
+    'short_screenshots': shortScreenshots != null && shortScreenshots!.isNotEmpty
+        ? shortScreenshots!.map((s) => s.image).join('|||')
+        : null,
+  };
+}
   
-  // Helper para crear desde SQLite
-  factory Game.fromSqliteMap(Map<String, dynamic> map) {
-    return Game(
-      id: map['id'],
-    name: map['name'],
-    descriptionRaw: map['description'],
-    backgroundImage: map['background_image'],
-    rating: map['rating']?.toDouble(),
-    metacritic: map['metacritic'],
-    released: map['released'],
-    isFavorite: map['is_favorite'] == 1,
-    collectionType: map['collection_type'],
-    updated: map['updated'],
-    website: map['website'],
-
-    shortScreenshots: map['screenshots'] != null
+ // 🔧 CORREGIDO: Helper para crear desde SQLite
+factory Game.fromSqliteMap(Map<String, dynamic> map) {
+  return Game(
+    id: map['id'] as int,
+    name: map['name'] as String,
+    descriptionRaw: map['description_raw'] as String?,
+    description: map['description'] as String?,
+    backgroundImage: map['background_image'] as String?,
+    rating: (map['rating'] as num?)?.toDouble(),
+    ratingTop: map['rating_top'] as int?,
+    ratingsCount: map['ratings_count'] as int?,
+    metacritic: map['metacritic'] as int?,
+    playtime: map['playtime'] as int?,
+    released: map['released'] as String?,
+    updated: map['updated_at'] as String?,
+    isFavorite: (map['is_favorite'] as int?) == 1,
+    collectionType: map['collection_type'] as String?,
+    website: map['website'] as String?,
+    
+    // 🔧 CORREGIDO: Reconstruir List<Screenshot> desde String
+    screenshots: map['screenshots'] != null && (map['screenshots'] as String).isNotEmpty
         ? (map['screenshots'] as String)
-            .split(', ')
+            .split('|||')
             .asMap()
             .entries
             .map((entry) => Screenshot(id: entry.key, image: entry.value))
             .toList()
         : null,
-
-    screenshots: null,
-
-    );
-  }
-
-  
+    
+    shortScreenshots: map['short_screenshots'] != null && (map['short_screenshots'] as String).isNotEmpty
+        ? (map['short_screenshots'] as String)
+            .split('|||')
+            .asMap()
+            .entries
+            .map((entry) => Screenshot(id: entry.key, image: entry.value))
+            .toList()
+        : null,
+    
+    // Nota: genres y platforms no se reconstruyen como objetos completos
+    // porque solo guardamos los nombres. Si necesitas los objetos completos,
+    // deberías hacer una nueva llamada a la API.
+  );
+}
  
   
   Game copyWith({
