@@ -14,14 +14,20 @@ import 'data/repositories/collection_repository.dart';
 import 'providers/game_provider.dart';
 import 'providers/theme_provider.dart';
 import 'providers/locale_provider.dart';
-
+import 'package:flutter/services.dart';
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   sqfliteFfiInit();
   databaseFactory = databaseFactoryFfi;
- 
+  
+ try {
+    await rootBundle.load('assets/icons/GAmeSpaceLogo.png');
+    print('✅ Logo encontrado!');
+  } catch (e) {
+    print('❌ Logo NO encontrado: $e');
+  }
 
   // Inicializar servicios base
   final apiService = ApiService();
