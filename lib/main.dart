@@ -3,7 +3,6 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:gamespace/l10n/app_localizations.dart';
 
-
 import 'config/theme.dart';
 import 'config/app_routes.dart';
 import 'core/network/Api_Service.dart';
@@ -14,26 +13,28 @@ import 'data/repositories/collection_repository.dart';
 import 'providers/game_provider.dart';
 import 'providers/theme_provider.dart';
 import 'providers/locale_provider.dart';
+
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  
+
   // Inicializar servicios base
   final apiService = ApiService();
   final dbHelper = DatabaseHelper.instance;
   final connectivityService = ConnectivityService();
-  
+
   // Inicializar repositorios
   final gameRepository = GameRepository(
     apiService: apiService,
     dbHelper: dbHelper,
     connectivityService: connectivityService,
   );
-  
+
   final collectionRepository = CollectionRepository(
     dbHelper: dbHelper,
   );
-  
+
   runApp(
     GameSpaceApp(
       apiService: apiService,
@@ -51,7 +52,6 @@ class GameSpaceApp extends StatelessWidget {
   final ConnectivityService connectivityService;
   final GameRepository gameRepository;
   final CollectionRepository collectionRepository;
-  
 
   const GameSpaceApp({
     super.key,
@@ -60,19 +60,21 @@ class GameSpaceApp extends StatelessWidget {
     required this.connectivityService,
     required this.gameRepository,
     required this.collectionRepository,
-
   });
 
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        // 🔧 LÍNEA 71: ThemeProvider primero
         ChangeNotifierProvider(
           create: (_) => ThemeProvider(),
         ),
+        // 🔧 LÍNEA 75: LocaleProvider segundo
         ChangeNotifierProvider(
           create: (_) => LocaleProvider(),
         ),
+        // 🔧 LÍNEA 79: GameProvider tercero
         ChangeNotifierProvider(
           create: (_) => GameProvider(
             apiService: apiService,
@@ -80,23 +82,24 @@ class GameSpaceApp extends StatelessWidget {
             connectivityService: connectivityService,
           ),
         ),
-        // Proveer repositorios
+        // Proveer repositorios (no cambiados)
         Provider<GameRepository>.value(value: gameRepository),
         Provider<CollectionRepository>.value(value: collectionRepository),
       ],
+      // 🔧 LÍNEA 91: Consumer2 para escuchar cambios
       child: Consumer2<ThemeProvider, LocaleProvider>(
         builder: (context, themeProvider, localeProvider, child) {
           return MaterialApp(
             title: 'GameSpace',
             debugShowCheckedModeBanner: false,
-            
-            // Theme
+
+            // 🔧 LÍNEAS 98-100: Theme configuration
             theme: AppTheme.lightTheme,
             darkTheme: AppTheme.darkTheme,
             themeMode: themeProvider.themeMode,
-            
-            // Localization
-            locale: localeProvider.locale,
+
+            // 🔧 LÍNEAS 103-113: Localization configuration
+            locale: localeProvider.locale, // ← Esto hace que el idioma cambie
             localizationsDelegates: const [
               AppLocalizations.delegate,
               GlobalMaterialLocalizations.delegate,
@@ -107,8 +110,8 @@ class GameSpaceApp extends StatelessWidget {
               Locale('es', ''), // Español
               Locale('en', ''), // English
             ],
-            
-            // Routing
+
+            // 🔧 LÍNEAS 116-119: Routing (sin cambios)
             initialRoute: AppRoutes.main,
             routes: AppRoutes.routes,
             onGenerateRoute: AppRoutes.onGenerateRoute,

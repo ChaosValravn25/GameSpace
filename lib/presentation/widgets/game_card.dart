@@ -130,7 +130,7 @@ class GameCard extends StatelessWidget {
                           Flexible(
                             child: PlatformIconRow(
                               platformSlugs: game.platforms!
-                                  .map((p) => p.platform?.slug ?? '')
+                                  .map((p) => p.platform.slug ?? '')
                                   .where((slug) => slug.isNotEmpty)
                                   .toList(),
                               iconSize: 14.0,

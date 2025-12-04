@@ -8,6 +8,7 @@ class ApiService {
 
   ApiService({http.Client? client}) : _client = client ?? http.Client();
 
+  // 🔧 LÍNEAS 12-60 MODIFICADAS
   // GET Games with filters
   Future<GamesResponse> getGames({
     int page = 1,
@@ -16,21 +17,50 @@ class ApiService {
     String? genres,
     String? platforms,
     String? ordering,
+    // 🆕 LÍNEA 23: Agregados parámetros opcionales para listas
+    List<int>? genresList,
+    List<int>? platformsList,
   }) async {
     try {
-      final queryParams = {
+      // 🔧 LÍNEAS 28-35 REEMPLAZADAS: Query params simplificados
+      final queryParams = <String, String>{
+        'key': ApiConstants.apiKey,
         'page': page.toString(),
         'page_size': pageSize.toString(),
-        if (search != null && search.isNotEmpty) 'search': search,
-        if (genres != null && genres.isNotEmpty) 'genres': genres,
-        if (platforms != null && platforms.isNotEmpty) 'platforms': platforms,
-        if (ordering != null && ordering.isNotEmpty) 'ordering': ordering,
       };
 
+      // 🔧 LÍNEAS 37-51 NUEVAS: Lógica correcta de filtros
+      // Search
+      if (search != null && search.isNotEmpty) {
+        queryParams['search'] = search;
+      }
+
+      // Ordering
+      if (ordering != null && ordering.isNotEmpty) {
+        queryParams['ordering'] = ordering;
+      }
+
+      // Genres - Acepta tanto String como List<int>
+      if (genres != null && genres.isNotEmpty) {
+        queryParams['genres'] = genres;
+      } else if (genresList != null && genresList.isNotEmpty) {
+        queryParams['genres'] = genresList.join(',');
+      }
+
+      // Platforms - Acepta tanto String como List<int>
+      if (platforms != null && platforms.isNotEmpty) {
+        queryParams['platforms'] = platforms;
+      } else if (platformsList != null && platformsList.isNotEmpty) {
+        queryParams['platforms'] = platformsList.join(',');
+      }
+
+      // 🔧 LÍNEAS 54-60 REEMPLAZADAS: Construcción de URL simplificada
       final url = ApiConstants.buildUrl(
         ApiConstants.gamesEndpoint,
         queryParams: queryParams,
       );
+
+      print('🌐 API Request: $url'); // Debug
 
       final response = await _client.get(Uri.parse(url));
 
@@ -44,6 +74,7 @@ class ApiService {
         );
       }
     } catch (e) {
+      print('❌ API Error: $e'); // Debug
       throw ApiException('Error fetching games: $e');
     }
   }
@@ -60,6 +91,12 @@ class ApiService {
       if (response.statusCode == 200) {
         final jsonData = json.decode(response.body);
         return Game.fromJson(jsonData);
+      } else if (response.statusCode == 404) {
+        // 🆕 LÍNEAS 96-98: Manejo específico de 404
+        throw ApiException(
+          'Game not found',
+          404,
+        );
       } else {
         throw ApiException(
           'Failed to load game detail: ${response.statusCode}',

@@ -137,6 +137,486 @@ abstract class AppLocalizations {
   /// **'Search games...'**
   String get search;
 
+  /// No description provided for @settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Preferences'**
+  String get settings;
+
+  /// No description provided for @appearance.
+  ///
+  /// In en, this message translates to:
+  /// **'Appearance'**
+  String get appearance;
+
+  /// No description provided for @language.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get language;
+
+  /// No description provided for @data.
+  ///
+  /// In en, this message translates to:
+  /// **'Data'**
+  String get data;
+
+  /// No description provided for @information.
+  ///
+  /// In en, this message translates to:
+  /// **'Information'**
+  String get information;
+
+  /// No description provided for @support.
+  ///
+  /// In en, this message translates to:
+  /// **'Support'**
+  String get support;
+
+  /// No description provided for @theme.
+  ///
+  /// In en, this message translates to:
+  /// **'Theme'**
+  String get theme;
+
+  /// No description provided for @lightMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Light Mode'**
+  String get lightMode;
+
+  /// No description provided for @darkMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark Mode'**
+  String get darkMode;
+
+  /// No description provided for @systemMode.
+  ///
+  /// In en, this message translates to:
+  /// **'System Mode'**
+  String get systemMode;
+
+  /// No description provided for @selectTheme.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Theme'**
+  String get selectTheme;
+
+  /// No description provided for @selectLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Language'**
+  String get selectLanguage;
+
+  /// No description provided for @languageChanged.
+  ///
+  /// In en, this message translates to:
+  /// **'Language changed successfully'**
+  String get languageChanged;
+
+  /// No description provided for @cachedGames.
+  ///
+  /// In en, this message translates to:
+  /// **'Cached games'**
+  String get cachedGames;
+
+  /// No description provided for @gamesStoredLocally.
+  ///
+  /// In en, this message translates to:
+  /// **'games stored locally'**
+  String get gamesStoredLocally;
+
+  /// No description provided for @clearCache.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear Cache'**
+  String get clearCache;
+
+  /// No description provided for @deleteStoredData.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete stored data'**
+  String get deleteStoredData;
+
+  /// No description provided for @clearCacheConfirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete all stored data? This includes downloaded games and your local collection.'**
+  String get clearCacheConfirmation;
+
+  /// No description provided for @cacheCleared.
+  ///
+  /// In en, this message translates to:
+  /// **'Cache cleared successfully'**
+  String get cacheCleared;
+
+  /// No description provided for @clearSearchHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear Search History'**
+  String get clearSearchHistory;
+
+  /// No description provided for @deleteRecentSearches.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete recent searches'**
+  String get deleteRecentSearches;
+
+  /// No description provided for @clearSearchHistoryConfirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'Do you want to delete all your recent searches?'**
+  String get clearSearchHistoryConfirmation;
+
+  /// No description provided for @historyCleared.
+  ///
+  /// In en, this message translates to:
+  /// **'History cleared successfully'**
+  String get historyCleared;
+
+  /// No description provided for @version.
+  ///
+  /// In en, this message translates to:
+  /// **'Version'**
+  String get version;
+
+  /// No description provided for @versionInformation.
+  ///
+  /// In en, this message translates to:
+  /// **'Version Information'**
+  String get versionInformation;
+
+  /// No description provided for @app.
+  ///
+  /// In en, this message translates to:
+  /// **'Application'**
+  String get app;
+
+  /// No description provided for @appInformation.
+  ///
+  /// In en, this message translates to:
+  /// **'Application information'**
+  String get appInformation;
+
+  /// No description provided for @sendFeedback.
+  ///
+  /// In en, this message translates to:
+  /// **'Send feedback'**
+  String get sendFeedback;
+
+  /// No description provided for @helpUsImprove.
+  ///
+  /// In en, this message translates to:
+  /// **'Help us improve'**
+  String get helpUsImprove;
+
+  /// No description provided for @tellUsYourExperience.
+  ///
+  /// In en, this message translates to:
+  /// **'Tell us your experience with GameSpace'**
+  String get tellUsYourExperience;
+
+  /// No description provided for @writeYourComments.
+  ///
+  /// In en, this message translates to:
+  /// **'Write your comments here...'**
+  String get writeYourComments;
+
+  /// No description provided for @thanksForFeedback.
+  ///
+  /// In en, this message translates to:
+  /// **'Thanks for your feedback!'**
+  String get thanksForFeedback;
+
+  /// No description provided for @send.
+  ///
+  /// In en, this message translates to:
+  /// **'Send'**
+  String get send;
+
+  /// No description provided for @rateApp.
+  ///
+  /// In en, this message translates to:
+  /// **'Rate app'**
+  String get rateApp;
+
+  /// No description provided for @giveUsYourOpinion.
+  ///
+  /// In en, this message translates to:
+  /// **'Give us your opinion in the store'**
+  String get giveUsYourOpinion;
+
+  /// No description provided for @rateGameSpace.
+  ///
+  /// In en, this message translates to:
+  /// **'Rate GameSpace'**
+  String get rateGameSpace;
+
+  /// No description provided for @doYouLikeGameSpace.
+  ///
+  /// In en, this message translates to:
+  /// **'Do you like GameSpace?'**
+  String get doYouLikeGameSpace;
+
+  /// No description provided for @yourOpinionHelpsUs.
+  ///
+  /// In en, this message translates to:
+  /// **'Your opinion helps us improve'**
+  String get yourOpinionHelpsUs;
+
+  /// No description provided for @thanksForSupport.
+  ///
+  /// In en, this message translates to:
+  /// **'Thanks for your support!'**
+  String get thanksForSupport;
+
+  /// No description provided for @rate.
+  ///
+  /// In en, this message translates to:
+  /// **'Rate'**
+  String get rate;
+
+  /// No description provided for @later.
+  ///
+  /// In en, this message translates to:
+  /// **'Later'**
+  String get later;
+
+  /// No description provided for @cancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancel;
+
+  /// No description provided for @delete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get delete;
+
+  /// No description provided for @close.
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get close;
+
+  /// No description provided for @error.
+  ///
+  /// In en, this message translates to:
+  /// **'Error'**
+  String get error;
+
+  /// No description provided for @noInternet.
+  ///
+  /// In en, this message translates to:
+  /// **'No internet connection'**
+  String get noInternet;
+
+  /// No description provided for @noInternetMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Please check your connection and try again.'**
+  String get noInternetMessage;
+
+  /// No description provided for @noResults.
+  ///
+  /// In en, this message translates to:
+  /// **'No results found'**
+  String get noResults;
+
+  /// No description provided for @noGames.
+  ///
+  /// In en, this message translates to:
+  /// **'No games available'**
+  String get noGames;
+
+  /// No description provided for @noDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'No description available'**
+  String get noDescription;
+
+  /// No description provided for @noFavorites.
+  ///
+  /// In en, this message translates to:
+  /// **'No favorites yet'**
+  String get noFavorites;
+
+  /// No description provided for @noRecentGames.
+  ///
+  /// In en, this message translates to:
+  /// **'No recent games'**
+  String get noRecentGames;
+
+  /// No description provided for @noWishlist.
+  ///
+  /// In en, this message translates to:
+  /// **'Your wishlist is empty'**
+  String get noWishlist;
+
+  /// No description provided for @noCollection.
+  ///
+  /// In en, this message translates to:
+  /// **'Your collection is empty'**
+  String get noCollection;
+
+  /// No description provided for @noSearchResults.
+  ///
+  /// In en, this message translates to:
+  /// **'No search results found'**
+  String get noSearchResults;
+
+  /// No description provided for @noGamesFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No games found'**
+  String get noGamesFound;
+
+  /// No description provided for @noGenres.
+  ///
+  /// In en, this message translates to:
+  /// **'No genres available'**
+  String get noGenres;
+
+  /// No description provided for @noPlatforms.
+  ///
+  /// In en, this message translates to:
+  /// **'No platforms available'**
+  String get noPlatforms;
+
+  /// No description provided for @noScreenshots.
+  ///
+  /// In en, this message translates to:
+  /// **'No screenshots available'**
+  String get noScreenshots;
+
+  /// No description provided for @noRatings.
+  ///
+  /// In en, this message translates to:
+  /// **'No ratings available'**
+  String get noRatings;
+
+  /// No description provided for @noReviews.
+  ///
+  /// In en, this message translates to:
+  /// **'No reviews available'**
+  String get noReviews;
+
+  /// No description provided for @noComments.
+  ///
+  /// In en, this message translates to:
+  /// **'No comments yet'**
+  String get noComments;
+
+  /// No description provided for @noData.
+  ///
+  /// In en, this message translates to:
+  /// **'No data available'**
+  String get noData;
+
+  /// No description provided for @noContent.
+  ///
+  /// In en, this message translates to:
+  /// **'No content available'**
+  String get noContent;
+
+  /// No description provided for @noConnection.
+  ///
+  /// In en, this message translates to:
+  /// **'No connection'**
+  String get noConnection;
+
+  /// No description provided for @noConnectionMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re viewing saved content. Connect to the internet to update.'**
+  String get noConnectionMessage;
+
+  /// No description provided for @noFavoritesMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Start adding games to your favorites from the Explore section'**
+  String get noFavoritesMessage;
+
+  /// No description provided for @noRecentGamesMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Play some games to see them here'**
+  String get noRecentGamesMessage;
+
+  /// No description provided for @noWishlistMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Add games to your wishlist from the Explore section'**
+  String get noWishlistMessage;
+
+  /// No description provided for @noCollectionMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Start adding games to your collection from the Explore section'**
+  String get noCollectionMessage;
+
+  /// No description provided for @noSearchResultsMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Try searching for a different game'**
+  String get noSearchResultsMessage;
+
+  /// No description provided for @noGamesFoundMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'No games match your search criteria'**
+  String get noGamesFoundMessage;
+
+  /// No description provided for @noGenresMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'No genres available to filter'**
+  String get noGenresMessage;
+
+  /// No description provided for @noPlatformsMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'No platforms available to filter'**
+  String get noPlatformsMessage;
+
+  /// No description provided for @noScreenshotsMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'No screenshots available for this game'**
+  String get noScreenshotsMessage;
+
+  /// No description provided for @noRatingsMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'No ratings available for this game'**
+  String get noRatingsMessage;
+
+  /// No description provided for @noReviewsMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'No reviews available for this game'**
+  String get noReviewsMessage;
+
+  /// No description provided for @noCommentsMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'No comments yet, be the first to comment'**
+  String get noCommentsMessage;
+
+  /// No description provided for @noDataMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'No data available at the moment'**
+  String get noDataMessage;
+
+  /// No description provided for @noContentMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'No content available, check back later'**
+  String get noContentMessage;
+
   /// No description provided for @popularGames.
   ///
   /// In en, this message translates to:
@@ -263,24 +743,6 @@ abstract class AppLocalizations {
   /// **'Screenshots'**
   String get screenshots;
 
-  /// No description provided for @noDescription.
-  ///
-  /// In en, this message translates to:
-  /// **'No description available'**
-  String get noDescription;
-
-  /// No description provided for @noGames.
-  ///
-  /// In en, this message translates to:
-  /// **'No games available'**
-  String get noGames;
-
-  /// No description provided for @noResults.
-  ///
-  /// In en, this message translates to:
-  /// **'No results found'**
-  String get noResults;
-
   /// No description provided for @loading.
   ///
   /// In en, this message translates to:
@@ -298,12 +760,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Refresh'**
   String get refresh;
-
-  /// No description provided for @error.
-  ///
-  /// In en, this message translates to:
-  /// **'Error'**
-  String get error;
 
   /// No description provided for @retry.
   ///
@@ -335,18 +791,6 @@ abstract class AppLocalizations {
   /// **'You\'re viewing saved content. Connect to internet to update.'**
   String get offlineMessage;
 
-  /// No description provided for @language.
-  ///
-  /// In en, this message translates to:
-  /// **'Language'**
-  String get language;
-
-  /// No description provided for @theme.
-  ///
-  /// In en, this message translates to:
-  /// **'Theme'**
-  String get theme;
-
   /// No description provided for @lightTheme.
   ///
   /// In en, this message translates to:
@@ -364,24 +808,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'System'**
   String get systemTheme;
-
-  /// No description provided for @clearCache.
-  ///
-  /// In en, this message translates to:
-  /// **'Clear Cache'**
-  String get clearCache;
-
-  /// No description provided for @clearSearchHistory.
-  ///
-  /// In en, this message translates to:
-  /// **'Clear Search History'**
-  String get clearSearchHistory;
-
-  /// No description provided for @version.
-  ///
-  /// In en, this message translates to:
-  /// **'Version'**
-  String get version;
 
   /// No description provided for @aboutTitle.
   ///
@@ -431,12 +857,6 @@ abstract class AppLocalizations {
   /// **'Apply'**
   String get apply;
 
-  /// No description provided for @cancel.
-  ///
-  /// In en, this message translates to:
-  /// **'Cancel'**
-  String get cancel;
-
   /// No description provided for @emptyCollection.
   ///
   /// In en, this message translates to:
@@ -460,12 +880,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Are you sure you want to delete this game from your collection?'**
   String get confirmDeleteMessage;
-
-  /// No description provided for @delete.
-  ///
-  /// In en, this message translates to:
-  /// **'Delete'**
-  String get delete;
 
   /// No description provided for @searchHint.
   ///

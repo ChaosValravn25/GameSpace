@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'dart:async';
 
 import '../../../providers/game_provider.dart';
 import '../widgets/game_card.dart';
@@ -286,9 +285,12 @@ class _ExploreScreenState extends State<ExploreScreen> {
     );
   }
 
-  void _applyFilters() {
-    // TODO: Implementar aplicación de filtros con la API
-    // Por ahora solo recarga los juegos
-    context.read<GameProvider>().fetchGames(refresh: true);
-  }
+ void _applyFilters() {
+  context.read<GameProvider>().fetchGames(
+    refresh: true,
+    ordering: _selectedOrdering,
+    genres: _selectedGenres,
+    platforms: _selectedPlatforms,
+  );
+}
 }

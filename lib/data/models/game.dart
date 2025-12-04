@@ -102,8 +102,8 @@ class Game {
       'ratings_count': ratingsCount,
       'rating_top': ratingTop,
       'website': website,
-      'screenshots': screenshots != null ? screenshots!.map((s) => s.image).join(', ') : null,
-      'short_screenshots': shortScreenshots != null ? shortScreenshots!.map((s) => s.image).join(', ') : null,
+      'screenshots': screenshots?.map((s) => s.image).join(', '),
+      'short_screenshots': shortScreenshots?.map((s) => s.image).join(', '),
       'description_raw': descriptionRaw,
      
     };

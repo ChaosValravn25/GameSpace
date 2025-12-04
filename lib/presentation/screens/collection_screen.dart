@@ -3,8 +3,6 @@ import 'package:provider/provider.dart';
 import '../../../providers/game_provider.dart';
 import '../../../data/models/game.dart';
 import '/../config/Api_Constants.dart';
-import '../widgets/game_card.dart';
-import 'game_detail_screen.dart';
 import '../widgets/collection_tab.dart'; 
 import 'explore_screen.dart';
 import '../widgets/connectivity_banner.dart';

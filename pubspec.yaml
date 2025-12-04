@@ -105,6 +105,9 @@ flutter_launcher_icons:
     generate: true
     image_path: lib/assets/icons/GAmeSpaceLogo.png
 
+  assets:
+    - assets/icons/
+    - assets/icons/GAmeSpaceLogo.png
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg

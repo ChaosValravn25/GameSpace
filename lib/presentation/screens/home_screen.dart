@@ -3,13 +3,10 @@ import 'package:provider/provider.dart';
 import 'package:gamespace/l10n/app_localizations.dart';
 
 import '../../../providers/game_provider.dart';
-import '../widgets/game_card.dart';
 import '../widgets/connectivity_banner.dart';
-import '../screens/game_detail_screen.dart';
 import 'explore_screen.dart';
 import '../widgets/hero_section.dart';
 import '../widgets/game_carousel.dart';
-import 'package:gamespace/data/models/game.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});

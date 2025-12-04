@@ -165,7 +165,7 @@ class AboutScreen extends StatelessWidget {
               context,
               name: 'Vicente Castillo',
               role: 'UI/UX Designer & Developer',
-              email: 'developer2@ejemplo.com',
+              email: 'vicastillo21@alumnos.utalca.cl',
             ),
             
             const SizedBox(height: 32),

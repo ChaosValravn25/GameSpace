@@ -30,6 +30,246 @@ class AppLocalizationsEs extends AppLocalizations {
   String get search => 'Buscar juegos...';
 
   @override
+  String get settings => 'Preferencias';
+
+  @override
+  String get appearance => 'Apariencia';
+
+  @override
+  String get language => 'Idioma';
+
+  @override
+  String get data => 'Datos';
+
+  @override
+  String get information => 'Información';
+
+  @override
+  String get support => 'Soporte';
+
+  @override
+  String get theme => 'Tema';
+
+  @override
+  String get lightMode => 'Modo Claro';
+
+  @override
+  String get darkMode => 'Modo Oscuro';
+
+  @override
+  String get systemMode => 'Modo Sistema';
+
+  @override
+  String get selectTheme => 'Seleccionar Tema';
+
+  @override
+  String get selectLanguage => 'Seleccionar Idioma';
+
+  @override
+  String get languageChanged => 'Idioma cambiado correctamente';
+
+  @override
+  String get cachedGames => 'Juegos en caché';
+
+  @override
+  String get gamesStoredLocally => 'juegos guardados localmente';
+
+  @override
+  String get clearCache => 'Limpiar Caché';
+
+  @override
+  String get deleteStoredData => 'Eliminar datos guardados';
+
+  @override
+  String get clearCacheConfirmation => '¿Estás seguro de que deseas eliminar todos los datos guardados? Esto incluye juegos descargados y tu colección local.';
+
+  @override
+  String get cacheCleared => 'Caché eliminado correctamente';
+
+  @override
+  String get clearSearchHistory => 'Limpiar Historial de Búsqueda';
+
+  @override
+  String get deleteRecentSearches => 'Borrar búsquedas recientes';
+
+  @override
+  String get clearSearchHistoryConfirmation => '¿Deseas eliminar todas tus búsquedas recientes?';
+
+  @override
+  String get historyCleared => 'Historial eliminado correctamente';
+
+  @override
+  String get version => 'Versión';
+
+  @override
+  String get versionInformation => 'Información de Versión';
+
+  @override
+  String get app => 'Aplicación';
+
+  @override
+  String get appInformation => 'Información de la aplicación';
+
+  @override
+  String get sendFeedback => 'Enviar comentarios';
+
+  @override
+  String get helpUsImprove => 'Ayúdanos a mejorar';
+
+  @override
+  String get tellUsYourExperience => 'Cuéntanos tu experiencia con GameSpace';
+
+  @override
+  String get writeYourComments => 'Escribe tus comentarios aquí...';
+
+  @override
+  String get thanksForFeedback => '¡Gracias por tus comentarios!';
+
+  @override
+  String get send => 'Enviar';
+
+  @override
+  String get rateApp => 'Calificar aplicación';
+
+  @override
+  String get giveUsYourOpinion => 'Danos tu opinión en la tienda';
+
+  @override
+  String get rateGameSpace => 'Calificar GameSpace';
+
+  @override
+  String get doYouLikeGameSpace => '¿Te gusta GameSpace?';
+
+  @override
+  String get yourOpinionHelpsUs => 'Tu opinión nos ayuda a mejorar';
+
+  @override
+  String get thanksForSupport => '¡Gracias por tu apoyo!';
+
+  @override
+  String get rate => 'Calificar';
+
+  @override
+  String get later => 'Más tarde';
+
+  @override
+  String get cancel => 'Cancelar';
+
+  @override
+  String get delete => 'Eliminar';
+
+  @override
+  String get close => 'Cerrar';
+
+  @override
+  String get error => 'Error';
+
+  @override
+  String get noInternet => 'No internet connection';
+
+  @override
+  String get noInternetMessage => 'Please check your connection and try again.';
+
+  @override
+  String get noResults => 'No se encontraron resultados';
+
+  @override
+  String get noGames => 'No hay juegos disponibles';
+
+  @override
+  String get noDescription => 'No hay descripción disponible';
+
+  @override
+  String get noFavorites => 'No favorites yet';
+
+  @override
+  String get noRecentGames => 'No recent games';
+
+  @override
+  String get noWishlist => 'Your wishlist is empty';
+
+  @override
+  String get noCollection => 'Your collection is empty';
+
+  @override
+  String get noSearchResults => 'No search results found';
+
+  @override
+  String get noGamesFound => 'No games found';
+
+  @override
+  String get noGenres => 'No genres available';
+
+  @override
+  String get noPlatforms => 'No platforms available';
+
+  @override
+  String get noScreenshots => 'No screenshots available';
+
+  @override
+  String get noRatings => 'No ratings available';
+
+  @override
+  String get noReviews => 'No reviews available';
+
+  @override
+  String get noComments => 'No comments yet';
+
+  @override
+  String get noData => 'No data available';
+
+  @override
+  String get noContent => 'No content available';
+
+  @override
+  String get noConnection => 'No connection';
+
+  @override
+  String get noConnectionMessage => 'You\'re viewing saved content. Connect to the internet to update.';
+
+  @override
+  String get noFavoritesMessage => 'Start adding games to your favorites from the Explore section';
+
+  @override
+  String get noRecentGamesMessage => 'Play some games to see them here';
+
+  @override
+  String get noWishlistMessage => 'Add games to your wishlist from the Explore section';
+
+  @override
+  String get noCollectionMessage => 'Start adding games to your collection from the Explore section';
+
+  @override
+  String get noSearchResultsMessage => 'Try searching for a different game';
+
+  @override
+  String get noGamesFoundMessage => 'No games match your search criteria';
+
+  @override
+  String get noGenresMessage => 'No genres available to filter';
+
+  @override
+  String get noPlatformsMessage => 'No platforms available to filter';
+
+  @override
+  String get noScreenshotsMessage => 'No screenshots available for this game';
+
+  @override
+  String get noRatingsMessage => 'No ratings available for this game';
+
+  @override
+  String get noReviewsMessage => 'No reviews available for this game';
+
+  @override
+  String get noCommentsMessage => 'No comments yet, be the first to comment';
+
+  @override
+  String get noDataMessage => 'No data available at the moment';
+
+  @override
+  String get noContentMessage => 'No content available, check back later';
+
+  @override
   String get popularGames => 'Juegos Populares';
 
   @override
@@ -93,15 +333,6 @@ class AppLocalizationsEs extends AppLocalizations {
   String get screenshots => 'Capturas de Pantalla';
 
   @override
-  String get noDescription => 'No hay descripción disponible';
-
-  @override
-  String get noGames => 'No hay juegos disponibles';
-
-  @override
-  String get noResults => 'No se encontraron resultados';
-
-  @override
   String get loading => 'Cargando...';
 
   @override
@@ -109,9 +340,6 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get refresh => 'Actualizar';
-
-  @override
-  String get error => 'Error';
 
   @override
   String get retry => 'Reintentar';
@@ -129,12 +357,6 @@ class AppLocalizationsEs extends AppLocalizations {
   String get offlineMessage => 'Estás viendo contenido guardado. Conéctate a internet para actualizar.';
 
   @override
-  String get language => 'Idioma';
-
-  @override
-  String get theme => 'Tema';
-
-  @override
   String get lightTheme => 'Claro';
 
   @override
@@ -142,15 +364,6 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get systemTheme => 'Sistema';
-
-  @override
-  String get clearCache => 'Limpiar Caché';
-
-  @override
-  String get clearSearchHistory => 'Limpiar Historial de Búsqueda';
-
-  @override
-  String get version => 'Versión';
 
   @override
   String get aboutTitle => 'Acerca de GameSpace';
@@ -177,9 +390,6 @@ class AppLocalizationsEs extends AppLocalizations {
   String get apply => 'Aplicar';
 
   @override
-  String get cancel => 'Cancelar';
-
-  @override
   String get emptyCollection => 'Tu colección está vacía';
 
   @override
@@ -190,9 +400,6 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get confirmDeleteMessage => '¿Estás seguro de que deseas eliminar este juego de tu colección?';
-
-  @override
-  String get delete => 'Eliminar';
 
   @override
   String get searchHint => 'Escribe el nombre de un juego';

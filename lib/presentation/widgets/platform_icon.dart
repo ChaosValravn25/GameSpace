@@ -8,11 +8,11 @@ class PlatformIcon extends StatelessWidget {
   final Color? color;
 
   const PlatformIcon({
-    Key? key,
+    super.key,
     required this.platformSlug,
     this.size = 20.0,
     this.color,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -116,13 +116,13 @@ class PlatformIconRow extends StatelessWidget {
   final int? maxIcons;
 
   const PlatformIconRow({
-    Key? key,
+    super.key,
     required this.platformSlugs,
     this.iconSize = 18.0,
     this.iconColor,
     this.spacing = 8.0,
     this.maxIcons,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -168,7 +168,7 @@ class PlatformChip extends StatelessWidget {
   final Color? iconColor;
 
   const PlatformChip({
-    Key? key,
+    super.key,
     required this.platformSlug,
     required this.platformName,
     this.iconSize = 16.0,
@@ -176,7 +176,7 @@ class PlatformChip extends StatelessWidget {
     this.backgroundColor,
     this.textColor,
     this.iconColor,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -224,7 +224,7 @@ class PlatformChipList extends StatelessWidget {
   final Color? iconColor;
 
   const PlatformChipList({
-    Key? key,
+    super.key,
     required this.platforms,
     this.spacing = 8.0,
     this.runSpacing = 8.0,
@@ -232,7 +232,7 @@ class PlatformChipList extends StatelessWidget {
     this.backgroundColor,
     this.textColor,
     this.iconColor,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

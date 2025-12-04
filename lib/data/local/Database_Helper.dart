@@ -99,59 +99,88 @@ class DatabaseHelper {
     return maps.map((map) => Game.fromSqliteMap(map)).toList();
   }
 
-  // Obtener juego por ID
-  Future<Game?> getGameById(int id) async {
-    final db = await database;
-    final maps = await db.query(
-      'games',
-      where: 'id = ?',
-      whereArgs: [id],
-    );
-    
-    if (maps.isEmpty) return null;
-    return Game.fromSqliteMap(maps.first);
-  }
+ // ✅ NECESARIO: Obtener juego por ID
+Future<Game?> getGameById(int id) async {
+  final db = await database;
+  final maps = await db.query(
+    'games',
+    where: 'id = ?',
+    whereArgs: [id],
+  );
 
-  Future<void> insertFavorite(Game game) async {
-    await insertGame(game.copyWith(isFavorite: true));
-  }
+  if (maps.isEmpty) return null;
+  
+  return Game.fromJson(maps.first);
+}
+  // ✅ NECESARIO: Insertar favorito
+Future<void> insertFavorite(Game game) async {
+  final db = await database;
+  
+  await db.insert(
+    'games',
+    {
+      ...game.toJson(),
+      'is_favorite': 1,  // ← Importante
+      'updated_at': DateTime.now().toIso8601String(),
+    },
+    conflictAlgorithm: ConflictAlgorithm.replace,
+  );
+}
 
-  Future<void> addToCollection(Game game, String collectionType) async {
-    await insertGame(game.copyWith(collectionType: collectionType));
-  }
+  // ✅ NECESARIO: Eliminar favorito
+Future<void> deleteFavorite(int id) async {
+  final db = await database;
+  
+  // NO eliminar el juego, solo quitar marca de favorito
+  await db.update(
+    'games',
+    {'is_favorite': 0},
+    where: 'id = ?',
+    whereArgs: [id],
+  );
+}
 
-  Future<void> deleteFavorite(int gameId) async {
-    final db = await database;
-    await db.update(
-      'games',
-      {'is_favorite': 0, 'collection_type': null},
-      where: 'id = ?',
-      whereArgs: [gameId],
-    );
-  }
-  // Obtener juegos favoritos
-  Future<List<Game>> getFavoriteGames() async {
-    final db = await database;
-    final maps = await db.query(
-      'games',
-      where: 'is_favorite = ?',
-      whereArgs: [1],
-      orderBy: 'added_at DESC',
-    );
-    return maps.map((map) => Game.fromSqliteMap(map)).toList();
-  }
+  // ✅ NECESARIO: Agregar a colección
+Future<void> addToCollection(Game game, String collectionType) async {
+  final db = await database;
+  
+  await db.insert(
+    'games',
+    {
+      ...game.toJson(),
+      'collection_type': collectionType,  // ← Importante
+      'updated_at': DateTime.now().toIso8601String(),
+    },
+    conflictAlgorithm: ConflictAlgorithm.replace,
+  );
+}
 
-  // Obtener juegos por tipo de colección
-  Future<List<Game>> getGamesByCollection(String collectionType) async {
-    final db = await database;
-    final maps = await db.query(
-      'games',
-      where: 'collection_type = ?',
-      whereArgs: [collectionType],
-      orderBy: 'added_at DESC',
-    );
-    return maps.map((map) => Game.fromSqliteMap(map)).toList();
-  }
+ 
+  // ✅ NECESARIO: Obtener favoritos
+Future<List<Game>> getFavoriteGames() async {
+  final db = await database;
+  final maps = await db.query(
+    'games',
+    where: 'is_favorite = ?',
+    whereArgs: [1],
+    orderBy: 'updated_at DESC',
+  );
+
+  return maps.map((map) => Game.fromJson(map)).toList();
+}
+
+ // ✅ NECESARIO: Obtener juegos de una colección
+Future<List<Game>> getGamesByCollection(String collectionType) async {
+  final db = await database;
+  final maps = await db.query(
+    'games',
+    where: 'collection_type = ?',
+    whereArgs: [collectionType],
+    orderBy: 'updated_at DESC',
+  );
+
+  return maps.map((map) => Game.fromJson(map)).toList();
+}
 
   // Actualizar estado de favorito
   Future<int> updateFavoriteStatus(int gameId, bool isFavorite) async {
