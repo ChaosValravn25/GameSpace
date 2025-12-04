@@ -33,12 +33,29 @@ class AboutScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              child:Image.asset(
-                'assets/icons/GAmeSpaceLogo.png',   // ← pon aquí la ruta de tu logo
-                fit: BoxFit.contain,
-                color: Colors.white,
+               child: ClipRRect(
+              borderRadius: BorderRadius.circular(24),
+              child: Image.asset(
+                'assets/icons/GAmeSpaceLogo.png', // ✅ VERIFICAR NOMBRE EXACTO
+                fit: BoxFit.cover, // ← Cambiar de contain a cover
+                errorBuilder: (context, error, stackTrace) {
+                  // 🔧 Mejor debugging
+                  print('❌ Error loading logo: $error');
+                  return Container(
+                    decoration: BoxDecoration(
+                      color: theme.primaryColor,
+                      borderRadius: BorderRadius.circular(24),
+                    ),
+                    child: const Icon(
+                      Icons.gamepad,
+                      size: 60,
+                      color: Colors.white,
+                    ),
+                  );
+                },
               ),
             ),
+          ),
             
             const SizedBox(height: 24),
             
