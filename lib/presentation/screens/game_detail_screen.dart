@@ -8,7 +8,8 @@ import '../../../config/Api_Constants.dart';
 
 import '../widgets/info_section.dart';              
 import '../widgets/screenshots.dart';        
-import '../widgets/action_buttons.dart';             
+import '../widgets/action_buttons.dart';     
+import 'package:gamespace/data/local/Database_Helper.dart';      
 
 class GameDetailScreen extends StatefulWidget {
   final int gameId;
@@ -73,12 +74,34 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
                         _buildTitleAndRating(game),
                         const SizedBox(height: 24),
 
-                        // 🔧 CORREGIDO: ActionButtons sin SnackBar (el provider ya lo maneja)
+                        // 🔧 CORREGIDO: ActionButtons con manejo de errores en toggle
                         ActionButtons(
                           game: game,
                           isFavorite: game.isFavorite,
-                          onFavoriteToggle: () {
-                            provider.toggleFavorite(game, context: context);
+                          onFavoriteToggle: () async {
+                            try {
+                              provider.toggleFavorite(game, context: context);
+                            } catch (e) {
+                              // Fallback offline
+                              print('API falló, guardando favorito offline');
+                              final partialGame = Game(
+                                id: game.id,
+                                name: game.name,
+                                backgroundImage: game.backgroundImage,
+                                isFavorite: !game.isFavorite,
+                              );
+                              await DatabaseHelper.instance.addToFavoritesSafe(partialGame);
+                              setState(() {
+                                game.isFavorite = !game.isFavorite; // Actualiza UI local
+                              });
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(game.isFavorite 
+                                      ? 'Agregado a favoritos (offline)' 
+                                      : 'Eliminado de favoritos (offline)'),
+                                ),
+                              );
+                            }
                           },
                           onAddToCollection: () => _showCollectionDialog(game, provider),
                         ),
@@ -105,14 +128,38 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
                 ],
               ),
 
-              // 🔧 CORREGIDO: QuickActionButton sin onPressed duplicado
+              // 🔧 CORREGIDO: QuickActionButton con manejo de errores en toggle
               Positioned(
                 bottom: 24,
                 right: 24,
                 child: QuickActionButton(
                   game: game,
                   isFavorite: game.isFavorite,
-                  onPressed: () => provider.toggleFavorite(game, context: context),
+                  onPressed: () async {
+                    try {
+                      provider.toggleFavorite(game, context: context);
+                    } catch (e) {
+                      // Fallback offline
+                      print('API falló, guardando favorito offline');
+                      final partialGame = Game(
+                        id: game.id,
+                        name: game.name,
+                        backgroundImage: game.backgroundImage,
+                        isFavorite: !game.isFavorite,
+                      );
+                      await DatabaseHelper.instance.addToFavoritesSafe(partialGame);
+                      setState(() {
+                        game.isFavorite = !game.isFavorite; // Actualiza UI local
+                      });
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(game.isFavorite 
+                              ? 'Agregado a favoritos (offline)' 
+                              : 'Eliminado de favoritos (offline)'),
+                        ),
+                      );
+                    }
+                  },
                 ),
               ),
             ],
