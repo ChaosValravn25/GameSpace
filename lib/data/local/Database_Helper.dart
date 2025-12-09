@@ -414,51 +414,6 @@ class DatabaseHelper {
     }
   }
 
-  Future<void> addToFavoritesSafe(Game? partialGame) async {
-  if (partialGame == null || partialGame.id == 0 || partialGame.name.isEmpty) {
-    print('❌ No se puede guardar favorito: datos insuficientes');
-    return;
-  }
-
-  try {
-    final db = await database;
-    final now = DateTime.now().toIso8601String();
-
-    // Siempre guardamos al menos lo básico
-    final Map<String, dynamic> gameData = {
-      'id': partialGame.id,
-      'name': partialGame.name,
-      'backgroundImage': partialGame.backgroundImage,
-      'released': partialGame.released,
-      'rating': partialGame.rating,
-      'metacritic': partialGame.metacritic,
-      'isFavorite': 1,
-      'collectionType': partialGame.collectionType,
-      'addedAt': now,
-      'updatedAt': now,
-      // Los campos complejos los dejamos null si no existen
-      'description': partialGame.description,
-      'descriptionRaw': partialGame.descriptionRaw,
-      'genres': partialGame.genres?.map((g) => g.name).join(','),
-      'platforms': partialGame.parentPlatforms?.map((p) => p.platform.name).join(','),
-      'screenshots': partialGame.screenshots?.map((s) => s.image).join(',') ??
-          partialGame.shortScreenshots?.map((s) => s.image).join(','),
-    };
-
-    await db.insert(
-      'games',
-      gameData,
-      conflictAlgorithm: ConflictAlgorithm.replace,
-    );
-
-    print('FAVORITO GUARDADO OFFLINE: ${partialGame.name} (ID: ${partialGame.id})');
-  } catch (e) {
-    print('ERROR CRÍTICO guardando favorito offline: $e');
-    // Nunca dejes que esto rompa la app
-  }
-}
-
-
   Future<List<String>> getSearchHistory({int limit = 10}) async {
     try {
       final db = await database;
@@ -661,6 +616,51 @@ class DatabaseHelper {
     } catch (e) {
       print('❌ Error resetting database: $e');
       rethrow;
+    }
+  }
+
+  // 🔧 NUEVO Y SÚPER RESILIENTE: Guardar favorito incluso sin detalle completo
+  Future<void> addToFavoritesSafe(Game? partialGame) async {
+    if (partialGame == null || partialGame.id == 0 || partialGame.name.isEmpty) {
+      print('❌ No se puede guardar favorito: datos insuficientes');
+      return;
+    }
+
+    try {
+      final db = await database;
+      final now = DateTime.now().toIso8601String();
+
+      // Siempre guardamos al menos lo básico
+      final Map<String, dynamic> gameData = {
+        'id': partialGame.id,
+        'name': partialGame.name,
+        'backgroundImage': partialGame.backgroundImage,
+        'released': partialGame.released,
+        'rating': partialGame.rating,
+        'metacritic': partialGame.metacritic,
+        'isFavorite': 1,
+        'collectionType': partialGame.collectionType,
+        'addedAt': now,
+        'updatedAt': now,
+        // Los campos complejos los dejamos null si no existen
+        'description': partialGame.description,
+        'descriptionRaw': partialGame.descriptionRaw,
+        'genres': partialGame.genres?.map((g) => g.name).join(','),
+        'platforms': partialGame.parentPlatforms?.map((p) => p.platform.name).join(','),
+        'screenshots': partialGame.screenshots?.map((s) => s.image).join(',') ??
+            partialGame.shortScreenshots?.map((s) => s.image).join(','),
+      };
+
+      await db.insert(
+        'games',
+        gameData,
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
+
+      print('FAVORITO GUARDADO OFFLINE: ${partialGame.name} (ID: ${partialGame.id})');
+    } catch (e) {
+      print('ERROR CRÍTICO guardando favorito offline: $e');
+      // Nunca dejes que esto rompa la app
     }
   }
 }
