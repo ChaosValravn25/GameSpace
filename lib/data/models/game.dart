@@ -49,14 +49,15 @@ class Game {
   @JsonKey(includeFromJson: false, includeToJson: false)
   String? collectionType;
 
-   @JsonKey(name: 'website')              // ← NUEVO: para que json_serializable lo mapee
+  @JsonKey(name: 'website')              // ← NUEVO: para que json_serializable lo mapee
   final String? website;
 
   @JsonKey(includeFromJson: false, includeToJson: true)
   List<Screenshot>? screenshots;
    // Lo dejaremos null por ahora, o lo mapeas si lo añades al JSON
 
-
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  String? addedAt;
 
   Game({
     required this.id,
@@ -79,7 +80,7 @@ class Game {
     this.collectionType,
     this.website,
     this.screenshots,
-
+    this.addedAt,
     
   });
 
@@ -99,19 +100,20 @@ Map<String, dynamic> toSqliteMap() {
     
     // 🔧 CORREGIDO: Convertir List<Genre> a String
     'genres': genres != null && genres!.isNotEmpty
-        ? genres!.map((g) => g.name).join(', ')
+        ? genres!.map((g) => g.name).join(',')
         : null,
     
     // 🔧 CORREGIDO: Convertir List<ParentPlatform> a String
     'platforms': parentPlatforms != null && parentPlatforms!.isNotEmpty
-        ? parentPlatforms!.map((p) => p.platform.name).join(', ')
+        ? parentPlatforms!.map((p) => p.platform.name).join(',')
         : platforms != null && platforms!.isNotEmpty
-            ? platforms!.map((p) => p.platform.name).join(', ')
+            ? platforms!.map((p) => p.platform.name).join(',')
             : null,
     
-    'is_favorite': isFavorite ? 1 : 0,
-    'collection_type': collectionType,
-    'updated_at': updated ?? DateTime.now().toIso8601String(),
+    'isFavorite': isFavorite ? 1 : 0,
+    'collectionType': collectionType,
+    'updatedAt': updated ?? DateTime.now().toIso8601String(),
+    'addedAt': addedAt ?? DateTime.now().toIso8601String(),
     'playtime': playtime,
     'ratings_count': ratingsCount,
     'rating_top': ratingTop,
@@ -120,11 +122,11 @@ Map<String, dynamic> toSqliteMap() {
     
     // 🔧 CORREGIDO: Convertir List<Screenshot> a String
     'screenshots': screenshots != null && screenshots!.isNotEmpty
-        ? screenshots!.map((s) => s.image).join('|||')
+        ? screenshots!.map((s) => s.image).join(',')
         : null,
     
     'short_screenshots': shortScreenshots != null && shortScreenshots!.isNotEmpty
-        ? shortScreenshots!.map((s) => s.image).join('|||')
+        ? shortScreenshots!.map((s) => s.image).join(',')
         : null,
   };
 }
@@ -144,14 +146,15 @@ factory Game.fromSqliteMap(Map<String, dynamic> map) {
     playtime: map['playtime'] as int?,
     released: map['released'] as String?,
     updated: map['updated_at'] as String?,
-    isFavorite: (map['is_favorite'] as int?) == 1,
-    collectionType: map['collection_type'] as String?,
+    isFavorite: (map['isFavorite'] as int?) == 1,
+    collectionType: map['collectionType'] as String?,
     website: map['website'] as String?,
+    addedAt: map['addedAt'] as String?,
     
     // 🔧 CORREGIDO: Reconstruir List<Screenshot> desde String
     screenshots: map['screenshots'] != null && (map['screenshots'] as String).isNotEmpty
         ? (map['screenshots'] as String)
-            .split('|||')
+            .split(',')
             .asMap()
             .entries
             .map((entry) => Screenshot(id: entry.key, image: entry.value))
@@ -160,7 +163,7 @@ factory Game.fromSqliteMap(Map<String, dynamic> map) {
     
     shortScreenshots: map['short_screenshots'] != null && (map['short_screenshots'] as String).isNotEmpty
         ? (map['short_screenshots'] as String)
-            .split('|||')
+            .split(',')
             .asMap()
             .entries
             .map((entry) => Screenshot(id: entry.key, image: entry.value))
@@ -179,6 +182,7 @@ factory Game.fromSqliteMap(Map<String, dynamic> map) {
     String? collectionType,
     List<Screenshot>? screenshots,
     String? website,
+    String? addedAt,
   }) {
     return Game(
       id: id,
@@ -201,6 +205,7 @@ factory Game.fromSqliteMap(Map<String, dynamic> map) {
       collectionType: collectionType ?? this.collectionType,
       website: website ?? this.website,
       screenshots: screenshots ?? this.screenshots,
+      addedAt: addedAt ?? this.addedAt,
     );
   }
 }
