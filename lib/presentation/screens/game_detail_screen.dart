@@ -6,11 +6,9 @@ import '../../../providers/game_provider.dart';
 import '../../../data/models/game.dart';
 import '../../../config/Api_Constants.dart';
 
-// === NUEVOS WIDGETS (créelos en carpetas separadas o aquí mismo si prefieres) ===
-import '../widgets/info_section.dart';              // ← Nuevo
-                 
-import '../widgets/screenshots.dart';        // ← Nuevo (incluye FullScreenGallery)
-import '../widgets/action_buttons.dart';             // ← Nuevo (incluye QuickActionButton, etc.)
+import '../widgets/info_section.dart';              
+import '../widgets/screenshots.dart';        
+import '../widgets/action_buttons.dart';             
 
 class GameDetailScreen extends StatefulWidget {
   final int gameId;
@@ -20,8 +18,6 @@ class GameDetailScreen extends StatefulWidget {
   @override
   State<GameDetailScreen> createState() => _GameDetailScreenState();
 }
-
-  
 
 class _GameDetailScreenState extends State<GameDetailScreen> {
   bool _isDescriptionExpanded = false;
@@ -77,59 +73,48 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
                         _buildTitleAndRating(game),
                         const SizedBox(height: 24),
 
-                        // === BOTONES DE ACCIÓN NUEVOS ===
+                        // 🔧 CORREGIDO: ActionButtons sin SnackBar (el provider ya lo maneja)
                         ActionButtons(
                           game: game,
                           isFavorite: game.isFavorite,
                           onFavoriteToggle: () {
                             provider.toggleFavorite(game, context: context);
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(game.isFavorite
-                                    ? 'Eliminado de favoritos'
-                                    : 'Agregado a favoritos'),
-                                duration: const Duration(seconds: 2),
-                              ),
-                            );
                           },
                           onAddToCollection: () => _showCollectionDialog(game, provider),
                         ),
 
                         const SizedBox(height: 24),
 
-                        // === DESCRIPCIÓN CON VER MÁS/MENOS ===
                         _buildDescription(game),
 
-                        // === NUEVAS SECCIONES ===
                         InfoSection(game: game),
                         GenresSection(genres: game.genres),
                         PlatformsSection(platforms: game.parentPlatforms),
 
-                        // === GALERÍA DE SCREENSHOTS ===
-                       ScreenshotsGallery(
+                        ScreenshotsGallery(
                           screenshots: game.screenshots?.isNotEmpty == true 
                               ? game.screenshots 
                               : game.shortScreenshots,
                           height: 220,
                         ),
 
-                        const SizedBox(height: 100), // espacio para el FAB
+                        const SizedBox(height: 100),
                       ],
                     ),
                   ),
                 ],
               ),
 
-              
-               Positioned(
-                 bottom: 24,
-                 right: 24,
-                 child: QuickActionButton(
-                   game: game,
-                   isFavorite: game.isFavorite,
-                   onPressed: () => provider.toggleFavorite(game, context: context),
-                 ),
-               ),
+              // 🔧 CORREGIDO: QuickActionButton sin onPressed duplicado
+              Positioned(
+                bottom: 24,
+                right: 24,
+                child: QuickActionButton(
+                  game: game,
+                  isFavorite: game.isFavorite,
+                  onPressed: () => provider.toggleFavorite(game, context: context),
+                ),
+              ),
             ],
           );
         },
@@ -147,14 +132,14 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
           children: [
             if (game.backgroundImage != null)
               CachedNetworkImage(
-                  imageUrl: game.backgroundImage ?? '',
-                  fit: BoxFit.cover,
-                  placeholder: (_, __) => Container(color: Colors.grey[850]),
-                  errorWidget: (_, __, ___) => Container(
-                    color: Colors.grey[850],
-                    child: const Icon(Icons.videogame_asset, size: 80, color: Colors.white54),
-                  ),
-                )
+                imageUrl: game.backgroundImage ?? '',
+                fit: BoxFit.cover,
+                placeholder: (_, __) => Container(color: Colors.grey[850]),
+                errorWidget: (_, __, ___) => Container(
+                  color: Colors.grey[850],
+                  child: const Icon(Icons.videogame_asset, size: 80, color: Colors.white54),
+                ),
+              )
             else
               Container(
                 color: Colors.grey[850],
@@ -173,7 +158,7 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
         ),
       ),
       actions: [
-        GameDetailActions(game: game), // ← Compartir + más opciones en AppBar
+        GameDetailActions(game: game),
       ],
     );
   }
@@ -206,7 +191,11 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
                       const SizedBox(width: 6),
                       Text(
                         game.rating!.toStringAsFixed(1),
-                        style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18),
+                        style: const TextStyle(
+                          color: Colors.white, 
+                          fontWeight: FontWeight.bold, 
+                          fontSize: 18
+                        ),
                       ),
                     ],
                   ),
@@ -221,7 +210,11 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
                   ),
                   child: Text(
                     'MC ${game.metacritic}',
-                    style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
+                    style: const TextStyle(
+                      color: Colors.white, 
+                      fontWeight: FontWeight.bold, 
+                      fontSize: 16
+                    ),
                   ),
                 ),
             ],
@@ -242,7 +235,9 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
         children: [
           Text(
             'Descripción',
-            style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+              fontWeight: FontWeight.bold
+            ),
           ),
           const SizedBox(height: 12),
           Text(
@@ -261,8 +256,6 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
     );
   }
 
- 
-
   Color _getRatingColor(double rating) {
     if (rating >= 4.0) return Colors.green;
     if (rating >= 3.0) return Colors.orange;
@@ -275,6 +268,7 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
     return Colors.red;
   }
 
+  // 🔧 CORREGIDO: _showCollectionDialog sin SnackBars duplicados
   void _showCollectionDialog(Game game, GameProvider provider) {
     showDialog(
       context: context,
@@ -287,33 +281,45 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
               leading: const Icon(Icons.play_circle),
               title: const Text('Jugando'),
               onTap: () {
-                provider.addToCollection(game, AppConstants.collectionPlaying,context:context);
                 Navigator.pop(context);
-                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Agregado a Jugando')));
+                provider.addToCollection(
+                  game, 
+                  AppConstants.collectionPlaying,
+                  context: context
+                );
               },
             ),
             ListTile(
               leading: const Icon(Icons.check_circle),
               title: const Text('Completados'),
               onTap: () {
-                provider.addToCollection(game, AppConstants.collectionCompleted,context:context);
                 Navigator.pop(context);
-                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Agregado a Completados')));
+                provider.addToCollection(
+                  game, 
+                  AppConstants.collectionCompleted,
+                  context: context
+                );
               },
             ),
             ListTile(
               leading: const Icon(Icons.bookmark),
               title: const Text('Wishlist'),
               onTap: () {
-                provider.addToCollection(game, AppConstants.collectionWishlist,context:context);
                 Navigator.pop(context);
-                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Agregado a Wishlist')));
+                provider.addToCollection(
+                  game, 
+                  AppConstants.collectionWishlist,
+                  context: context
+                );
               },
             ),
           ],
         ),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(context), child: const Text('Cancelar')),
+          TextButton(
+            onPressed: () => Navigator.pop(context), 
+            child: const Text('Cancelar')
+          ),
         ],
       ),
     );
