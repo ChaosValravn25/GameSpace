@@ -6,7 +6,6 @@ import '/../config/Api_Constants.dart';
 import '../widgets/collection_tab.dart'; 
 import 'explore_screen.dart';
 import '../widgets/connectivity_banner.dart';
-import 'package:gamespace/l10n/app_localizations.dart';
 class CollectionScreen extends StatefulWidget {
   const CollectionScreen({super.key});
 

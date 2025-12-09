@@ -1,12 +1,10 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:gamespace/config/Api_Constants.dart';
-import 'package:url_launcher/url_launcher.dart';
 import '../core/network/Connectivity_Service.dart';
 import '../core/network/Api_Service.dart';
 import '../data/local/Database_Helper.dart';
 import '../data/models/game.dart';
-import '../presentation/screens/collection_screen.dart';
 
 class GameProvider with ChangeNotifier {
   final ApiService _apiService;
@@ -229,48 +227,92 @@ Future<void> fetchGames({
 
   // Fetch Game Detail
   Future<void> fetchGameDetail(int gameId) async {
-    if (_selectedGame?.id == gameId && _selectedGame != null) return;
+    if (_selectedGame?.id == gameId && _selectedGame != null) {
+    print('✅ Game already loaded: ${_selectedGame!.name}');
+    return;
+  }
 
     _isLoading = true;
     _errorMessage = null;
     notifyListeners();
 
     try {
+       print('🔄 Fetching game detail: $gameId');
       Game game;
       
       // Primero intentar obtener de la API
       try {
         game = await _apiService.getGameDetail(gameId);
+       print('🔄 Fetching game detail: $gameId');
+
       } catch (e) {
         // Si falla, buscar en caché
-        game = await _findGameInCache(gameId) ??
-            Game(id: gameId, name: 'Juego no encontrado');
+        print('⚠️ API error: ');
+      
+      // Si falla la API, buscar en caché
+      final cachedGame = await _findGameInCache(gameId);
+      
+      if (cachedGame != null) {
+        game = cachedGame;
+        print('📦 Game loaded from cache: ${game.name}');
+      } else {
+        // Si no hay en caché, crear uno básico
+        print('❌ Game not found in cache, creating basic game');
+        game = Game(
+          id: gameId,
+          name: 'Juego no disponible',
+          description: 'No se pudo cargar la información de este juego.',
+        );
       }
-
+   }
       // 🔧 CORREGIDO: Cargar estado de favorito y colección desde DB
       final dbGame = await _dbHelper.getGameById(gameId);
       final isFavorite = dbGame?.isFavorite ?? false;
       final collectionType = dbGame?.collectionType;
 
+      print('💾 DB state - Favorite: $isFavorite, Collection: $collectionType');
       // Screenshots completos (con fallback)
       List<Screenshot> screenshots = game.shortScreenshots ?? [];
+    if (_isOnline) {
       try {
-        screenshots = await _apiService.getGameScreenshots(gameId);
-      } catch (_) {}
+        final fullScreenshots = await _apiService.getGameScreenshots(gameId);
+        if (fullScreenshots.isNotEmpty) {
+          screenshots = fullScreenshots;
+          print('✅ Loaded ${screenshots.length} screenshots');
+        }
+      } catch (e) {
+        print('⚠️ Could not load screenshots: $e');
+      }
+    }
 
       _selectedGame = game.copyWith(
         isFavorite: isFavorite,
         collectionType: collectionType,
         screenshots: screenshots,
       );
+      print('✅ Game detail loaded successfully: ${_selectedGame!.name}');
     } catch (e) {
-      _errorMessage = null; // Nunca mostramos error en juegos spam
-      print('❌ Detalle no disponible: $e');
-    } finally {
-      _isLoading = false;
-      notifyListeners();
+    print('❌ Critical error fetching game detail: $e');
+    
+    // Intentar cargar desde caché como último recurso
+    final cachedGame = await _findGameInCache(gameId);
+    if (cachedGame != null) {
+      _selectedGame = cachedGame;
+      print('📦 Loaded from cache as fallback: ${cachedGame.name}');
+    } else {
+      _errorMessage = 'No se pudo cargar el juego';
+      _selectedGame = Game(
+        id: gameId,
+        name: 'Error',
+        description: 'No se pudo cargar la información.',
+      );
     }
+  } finally {
+    _isLoading = false;
+    notifyListeners();
   }
+}
+  
 
   // 🔧 CORREGIDO: Toggle Favorite
   Future<void> toggleFavorite(Game game, {BuildContext? context}) async {
@@ -480,26 +522,47 @@ Future<void> fetchGames({
   }
 
   Future<Game?> _findGameInCache(int gameId) async {
-    // Primero buscar en memoria
-    try {
-      return _games.firstWhere((g) => g.id == gameId);
-    } catch (_) {}
+  print('🔍 Searching game $gameId in cache...');
+  
+  // Buscar en memoria primero
+  try {
+    final memGame = _games.firstWhere((g) => g.id == gameId);
+    print('✅ Found in _games: ${memGame.name}');
+    return memGame;
+  } catch (_) {}
 
-    try {
-      return _popularGames.firstWhere((g) => g.id == gameId);
-    } catch (_) {}
+  try {
+    final memGame = _popularGames.firstWhere((g) => g.id == gameId);
+    print('✅ Found in _popularGames: ${memGame.name}');
+    return memGame;
+  } catch (_) {}
 
-    try {
-      return _recentGames.firstWhere((g) => g.id == gameId);
-    } catch (_) {}
+  try {
+    final memGame = _recentGames.firstWhere((g) => g.id == gameId);
+    print('✅ Found in _recentGames: ${memGame.name}');
+    return memGame;
+  } catch (_) {}
 
-    // Buscar en DB
-    try {
-      return await _dbHelper.getGameById(gameId);
-    } catch (_) {
-      return null;
+  try {
+    final memGame = _searchResults.firstWhere((g) => g.id == gameId);
+    print('✅ Found in _searchResults: ${memGame.name}');
+    return memGame;
+  } catch (_) {}
+
+  // Buscar en DB
+  try {
+    final dbGame = await _dbHelper.getGameById(gameId);
+    if (dbGame != null) {
+      print('✅ Found in database: ${dbGame.name}');
+      return dbGame;
     }
+  } catch (e) {
+    print('⚠️ DB error: $e');
   }
+
+  print('❌ Game $gameId not found in cache');
+  return null;
+}
 
   // Load Favorites
   Future<void> loadFavorites() async {

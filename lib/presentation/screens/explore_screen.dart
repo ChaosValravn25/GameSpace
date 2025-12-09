@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:gamespace/l10n/app_localizations.dart';
 import '../../../providers/game_provider.dart';
 import '../widgets/game_card.dart';
 import '../widgets/connectivity_banner.dart';
