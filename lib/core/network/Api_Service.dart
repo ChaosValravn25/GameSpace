@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../../config/Api_Constants.dart';
 import '../../data/models/game.dart';
-
+import 'package:retry/retry.dart';
 class ApiService {
   final http.Client _client;
 
@@ -131,6 +131,15 @@ class ApiService {
       throw ApiException('Error fetching screenshots: $e');
     }
   }
+
+  Future<http.Response> getWithRetry(String url) async {
+  return retry(
+    () => http.get(Uri.parse(url)),
+    retryIf: (e) => e is http.ClientException || (e is Exception && e.toString().contains('429')), // Retry on 429 or network errors
+    maxAttempts: 5,
+    delayFactor: const Duration(seconds: 1), // Exponential backoff: 1s, 2s, 4s, etc.
+  );
+}
 
   // GET Genres
   Future<List<Genre>> getGenres() async {
