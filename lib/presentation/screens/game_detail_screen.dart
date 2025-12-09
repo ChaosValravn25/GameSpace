@@ -82,7 +82,7 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
                           game: game,
                           isFavorite: game.isFavorite,
                           onFavoriteToggle: () {
-                            provider.toggleFavorite(game);
+                            provider.toggleFavorite(game, context: context);
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 content: Text(game.isFavorite
@@ -127,7 +127,7 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
                  child: QuickActionButton(
                    game: game,
                    isFavorite: game.isFavorite,
-                   onPressed: () => provider.toggleFavorite(game),
+                   onPressed: () => provider.toggleFavorite(game, context: context),
                  ),
                ),
             ],
@@ -287,7 +287,7 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
               leading: const Icon(Icons.play_circle),
               title: const Text('Jugando'),
               onTap: () {
-                provider.addToCollection(game, AppConstants.collectionPlaying);
+                provider.addToCollection(game, AppConstants.collectionPlaying,context:context);
                 Navigator.pop(context);
                 ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Agregado a Jugando')));
               },
@@ -296,7 +296,7 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
               leading: const Icon(Icons.check_circle),
               title: const Text('Completados'),
               onTap: () {
-                provider.addToCollection(game, AppConstants.collectionCompleted);
+                provider.addToCollection(game, AppConstants.collectionCompleted,context:context);
                 Navigator.pop(context);
                 ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Agregado a Completados')));
               },
@@ -305,7 +305,7 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
               leading: const Icon(Icons.bookmark),
               title: const Text('Wishlist'),
               onTap: () {
-                provider.addToCollection(game, AppConstants.collectionWishlist);
+                provider.addToCollection(game, AppConstants.collectionWishlist,context:context);
                 Navigator.pop(context);
                 ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Agregado a Wishlist')));
               },
