@@ -5,6 +5,8 @@ import '../core/network/Connectivity_Service.dart';
 import '../core/network/Api_Service.dart';
 import '../data/local/Database_Helper.dart';
 import '../data/models/game.dart';
+import '../data/repositories/collection_repository.dart';
+import '../data/repositories/game_repository.dart';
 
 class GameProvider with ChangeNotifier {
   final ApiService _apiService;
@@ -220,6 +222,7 @@ class GameProvider with ChangeNotifier {
 
     _isLoading = true;
     _errorMessage = null;
+   
     notifyListeners();
 
     try {
